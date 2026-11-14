@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EquiWork | Employer Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="employer.css">
+</head>
+
+<body>
+
+    <div class="bg-layer" aria-hidden="true">
+        <iframe class="bg" src="background-template.html" title="" tabindex="-1"></iframe>
+    </div>
+
+    <div class="app-shell">
+
+        <aside class="sidebar" id="leftSidebar" aria-label="Primary navigation">
+
+            <div class="sidebar__shape" aria-hidden="true"></div>
+
+            <div class="sidebar__head">
+
+                <a class="sidebar__brand" href="#dashboard" aria-label="EquiWork Home">
+                    <img src="EquiWork-Logo-removebg-preview.png" alt="EquiWork Logo">
+                </a>
+
+                <button class="sidebar-collapse" id="sidebarCollapse" type="button" aria-label="Minimize sidebar"
+                    aria-expanded="true" title="Minimize sidebar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15 6l-6 6 6 6" />
+                    </svg>
+                </button>
+
+            </div>
+
+            <nav class="side-nav">
+
+                <a href="#dashboard" class="side-nav__link is-active" style="--accent:#F4B323; --accent-ink:#292313;"
+                    title="Dashboard" aria-current="page">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />
+                    </svg>
+                    <span class="side-nav__label">Dashboard</span>
+                </a>
+
+                <a href="#job-postings" class="side-nav__link" data-placeholder="true"
+                    style="--accent:#F4B323; --accent-ink:#292313;" title="Job Postings">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="7" width="18" height="13" rx="2" />
+                        <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" />
+                    </svg>
+                    <span class="side-nav__label">Job Postings</span>
+                </a>
+
+                <a href="#applicants" class="side-nav__link" data-placeholder="true"
+                    style="--accent:#F4B323; --accent-ink:#292313;" title="Applicants">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="9" cy="8" r="3.2" />
+                        <path d="M3 19c.5-3 2.8-4.8 6-4.8s5.5 1.8 6 4.8" />
+                        <path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M18 14.6c1.8.6 2.7 2 3 4.4" />
+                    </svg>
+                    <span class="side-nav__label">Applicants</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar__foot">
+                <div class="sidebar__profile" title="Employer Account">
+                    <span class="sidebar__profile-avatar" aria-hidden="true">EA</span>
+                    <div class="sidebar__profile-info">
+                        <span class="sidebar__profile-name">EquiWork HR</span>
+                        <span class="sidebar__profile-role">Verified Employer</span>
+                    </div>
+                </div>
+            </div>
+            <span class="side-nav__bubble" id="sidebarBubble" aria-hidden="true"></span>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-stage">
+
+            <!-- TOP NAVIGATION -->
+            <header class="topbar">
+
+                <div class="topbar__inner">
+
+                    <div class="topbar__title-group">
+
+                        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Toggle navigation"
+                            aria-expanded="false">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+
+                        <h1 class="page-title">Dashboard</h1>
+
+                    </div>
+
+
+                    <div class="topbar__actions">
+
+                        <a href="#" class="employer-link">Employer site</a>
+
+                        <div class="account">
+
+                            <button class="account__btn" id="accountBtn" type="button" aria-expanded="false">
+
+                                <span class="account__avatar">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <circle cx="12" cy="8.5" r="3.6" />
+                                        <path d="M5.5 19.5c.6-3.3 3.2-5.2 6.5-5.2s5.9 1.9 6.5 5.2z" />
+                                    </svg>
+                                </span>
+
+                                <span class="account__info">
+                                    <span class="account__name">Employer Account</span>
+                                    <span class="account__role">Admin</span>
+                                </span>
+
+                                <svg class="account__chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+
+                            </button>
+
+                            <ul class="account__menu" id="accountMenu">
+                                <li><a href="#">My Profile</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li><a href="#">Sign Out</a></li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD WORKSPACE -->
+            <main class="workspace-content" id="dashboard">
+
+                <!-- SEARCH BAR -->
+                <form class="search" id="searchForm">
+
+                    <div class="search__loc">
+
+                        <div class="search__field search__field--loc">
+
+                            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" />
+                                <circle cx="12" cy="9.5" r="2.5" />
+                            </svg>
+
+                            <input id="locationInput" type="text" placeholder="Around you" autocomplete="off"
+                                aria-label="Location">
+
+                            <button class="field__clear" id="clearLocation" type="button" aria-label="Clear location"
+                                hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 6l12 12M18 6L6 18" />
+                                </svg>
+                            </button>
+
+                        </div>
+
+                        <ul class="loc__menu" id="locationMenu" role="listbox"></ul>
+
+                    </div>
+
+
+                    <span class="search__divider" aria-hidden="true"></span>
+
+
+                    <div class="search__field search__field--kw">
+
+                        <svg class="icon icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="11" cy="11" r="6.5" />
+                            <path d="M16 16l5 5" />
+                        </svg>
+
+                        <input type="text" id="jobSearch" placeholder="Search by title, company, or keyword..."
+                            autocomplete="off" aria-label="Search jobs">
+
+                        <button class="field__clear" id="clearJobSearch" type="button" aria-label="Clear keyword search"
+                            hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M6 6l12 12M18 6L6 18" />
+                            </svg>
+                        </button>
+
+                    </div>
+
+
+                    <div class="search__buttons">
+
+                        <!-- FILTER BUTTON + POPOVER -->
+                        <div class="filter-wrap">
+
+                            <button class="btn btn--filter" id="filterBtn" type="button" aria-expanded="false"
+                                aria-controls="filterPanel">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
+                                    <circle cx="16" cy="7" r="2" />
+                                    <circle cx="8" cy="17" r="2" />
+                                </svg>
+                                <span>Filter</span>
+                                <span class="filter-badge" id="filterBadge" hidden>0</span>
+                            </button>
+
+
+                            <!-- FILTER OPTIONS -->
+                            <div class="filters" id="filterPanel" role="dialog" aria-label="Filters">
+
+                                <div class="filters__head">
+                                    <span class="filters__title">Filters</span>
+                                    <button class="filters__clear" id="clearFilters" type="button">Clear all</button>
+                                </div>
+
+                                <div class="filters__grid">
+
+                                    <!-- SALARY FILTER -->
+                                    <div class="filters__field">
+                                        <span class="filters__label">Pay</span>
+                                        <div class="dd dd--block" data-filter="Pay">
+
+                                            <button class="dd__btn" type="button" aria-haspopup="listbox"
+                                                aria-expanded="false">
+                                                <span class="dd__label" data-default="Any pay">Any pay</span>
+                                                <svg class="dd__chev" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </button>
+
+                                            <ul class="dd__menu" role="listbox">
+                                                <li data-value="all" class="is-selected" role="option"
+                                                    aria-selected="true">Any pay</li>
+                                                <li data-value="under20" role="option" aria-selected="false">Under ₱20k
+                                                </li>
+                                                <li data-value="20to40" role="option" aria-selected="false">₱20k – ₱40k
+                                                </li>
+                                                <li data-value="over40" role="option" aria-selected="false">₱40k+</li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- EMPLOYMENT TYPE -->
+                                    <div class="filters__field">
+                                        <span class="filters__label">Type</span>
+                                        <div class="dd dd--block" data-filter="Type">
+
+                                            <button class="dd__btn" type="button" aria-haspopup="listbox"
+                                                aria-expanded="false">
+                                                <span class="dd__label" data-default="Any type">Any type</span>
+                                                <svg class="dd__chev" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </button>
+
+                                            <ul class="dd__menu" role="listbox">
+                                                <li data-value="all" class="is-selected" role="option"
+                                                    aria-selected="true">Any type</li>
+                                                <li data-value="Full-time" role="option" aria-selected="false">Full-time
+                                                </li>
+                                                <li data-value="Part-time" role="option" aria-selected="false">Part-time
+                                                </li>
+                                                <li data-value="Contract" role="option" aria-selected="false">Contract
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- WORK ARRANGEMENT -->
+                                    <div class="filters__field">
+                                        <span class="filters__label">Remote</span>
+                                        <div class="dd dd--block" data-filter="Remote">
+
+                                            <button class="dd__btn" type="button" aria-haspopup="listbox"
+                                                aria-expanded="false">
+                                                <span class="dd__label" data-default="Any arrangement">Any
+                                                    arrangement</span>
+                                                <svg class="dd__chev" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </button>
+
+                                            <ul class="dd__menu" role="listbox">
+                                                <li data-value="all" class="is-selected" role="option"
+                                                    aria-selected="true">Any arrangement</li>
+                                                <li data-value="On-site" role="option" aria-selected="false">On-site
+                                                </li>
+                                                <li data-value="Hybrid" role="option" aria-selected="false">Hybrid</li>
+                                                <li data-value="Remote" role="option" aria-selected="false">Fully remote
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- CLASSIFICATION -->
+                                    <div class="filters__field">
+                                        <span class="filters__label">Classification</span>
+                                        <div class="dd dd--block" data-filter="Classification">
+
+                                            <button class="dd__btn" type="button" aria-haspopup="listbox"
+                                                aria-expanded="false">
+                                                <span class="dd__label" data-default="Any classification">Any
+                                                    classification</span>
+                                                <svg class="dd__chev" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </button>
+
+                                            <ul class="dd__menu" role="listbox">
+                                                <li data-value="all" class="is-selected" role="option"
+                                                    aria-selected="true">Any classification</li>
+                                                <li data-value="PWD" role="option" aria-selected="false">PWD</li>
+                                                <li data-value="Senior citizen" role="option" aria-selected="false">
+                                                    Senior citizen</li>
+                                                <li data-value="Indigenous" role="option" aria-selected="false">
+                                                    Indigenous</li>
+                                                <li data-value="Solo parent" role="option" aria-selected="false">Solo
+                                                    parent</li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="btn btn--seek" type="submit">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="11" cy="11" r="6.5" />
+                                <path d="M16 16l5 5" />
+                            </svg>
+                            <span>Find</span>
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <!-- SUGGESTIONS -->
+                <div class="chips">
+
+                    <span class="chips__label">Suggestions</span>
+
+                    <button class="chip" type="button">Your skill</button>
+                    <button class="chip" type="button">Landscaper</button>
+                    <button class="chip" type="button">Carpenter</button>
+                    <button class="chip" type="button">Content Creator</button>
+                    <button class="chip" type="button">Delivery Rider</button>
+
+                </div>
+
+
+                <!-- RESULTS TOOLBAR -->
+                <div class="results-toolbar">
+
+                    <div class="results-info">
+                        <p class="results-bar__count" id="resultsCount">Showing 1 Job Result</p>
+                        <p class="results-bar__sub">Based on your preferences</p>
+                    </div>
+
+
+                    <div class="results-controls">
+
+                        <!-- SORT DROPDOWN (same .dd component as the filters) -->
+                        <div class="dd dd--sort" id="sortDropdown" data-value="newest">
+                            <button class="dd__btn dd__btn--sort" type="button" aria-haspopup="listbox"
+                                aria-expanded="false">
+                                <span class="dd__prefix">Sort:</span>
+                                <span class="dd__label" id="sortLabel">Newest</span>
+                                <svg class="dd__chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+
+                            <ul class="dd__menu dd__menu--right" role="listbox">
+                                <li data-value="newest" class="is-selected" role="option" aria-selected="true">Newest
+                                </li>
+                                <li data-value="oldest" role="option" aria-selected="false">Oldest</li>
+                                <li data-value="title" role="option" aria-selected="false">Job Title</li>
+                            </ul>
+                        </div>
+
+
+                        <div class="views">
+
+                            <button class="views__btn" id="listView" type="button" aria-label="List view"
+                                aria-pressed="false">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" />
+                                </svg>
+                            </button>
+
+                            <button class="views__btn is-on" id="gridView" type="button" aria-label="Grid view"
+                                aria-pressed="true">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="4" y="4" width="6" height="6" rx="1" />
+                                    <rect x="14" y="4" width="6" height="6" rx="1" />
+                                    <rect x="4" y="14" width="6" height="6" rx="1" />
+                                    <rect x="14" y="14" width="6" height="6" rx="1" />
+                                </svg>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- JOB LISTINGS -->
+                <section class="job-listings" id="jobListings">
+
+
+                    <!-- JOB CARD 1 -->
+                    <article class="job-card" data-title="Job Title Placeholder" data-company="Company Name Placeholder"
+                        data-type="Full-time" data-location="Batangas City" data-work="Remote" data-pay="30000"
+                        data-classification="PWD" data-date="6">
+
+                        <div class="job-card__top">
+
+                            <div class="job-card__company">
+                                <span class="company-name">Company Name Placeholder</span>
+                                <h3>Job Title Placeholder</h3>
+                            </div>
+
+                            <div class="company-logo-placeholder">LOGO</div>
+
+                        </div>
+
+                        <p class="job-card__salary">₱ Salary Range Placeholder</p>
+
+                        <p class="job-card__description">
+                            Job description placeholder. This section will contain a short
+                            overview of the job responsibilities and qualifications.
+                        </p>
+
+                        <div class="job-card__tags">
+                            <span class="job-tag">Full-time</span>
+                            <span class="job-tag">Remote</span>
+                        </div>
+
+                        <div class="job-card__bottom">
+                            <span class="job-location">Location Placeholder</span>
+                            <button class="save-job-btn" type="button" aria-pressed="false">☆ Save Job</button>
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- NO RESULTS -->
+                <div class="no-results" id="noResults" hidden>
+                    <h3>No job listings found</h3>
+                    <p>Try changing your search or filters.</p>
+                    <button type="button" id="resetFilters">Clear Filters</button>
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+
+    <!-- MOBILE SIDEBAR BACKDROP -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        /* =========================================
+           SIDEBAR: ELEMENTS
+        ========================================= */
+
+        const sidebar = document.getElementById("leftSidebar");
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+        const sidebarBubble = document.getElementById("sidebarBubble");
+        const navLinks = document.querySelectorAll(".side-nav__link");
+
+
+        /* =========================================
+           SIDEBAR: LIQUID NOTCH + ACTIVE BUBBLE
+        ========================================= */
+
+        const SHAPE = { top: 0, bottom: 0, left: 0, item: 54, ready: false };
+        const CORNER = 26;
+        const FILLET = 22;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        let glide = null;
+        let glideRaf = 0;
+
+        function clamp01(v) { return Math.min(1, Math.max(0, v)); }
+        function lerp(a, b, k) { return a + (b - a) * k; }
+
+        function easeOutBack(x) {
+            const c1 = 1.05, c3 = c1 + 1;
+            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        }
+
+        function easeInOutCubic(x) {
+            return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+
+        function measureActive() {
+            const active = sidebar.querySelector(".side-nav__link.is-active");
+            if (!active) return null;
+
+            const sb = sidebar.getBoundingClientRect();
+            const tab = active.getBoundingClientRect();
+
+            if (sb.width === 0 || tab.height === 0) return null;
+
+            return {
+                link: active,
+                top: tab.top - sb.top,
+                bottom: tab.bottom - sb.top,
+                left: tab.left - sb.left
+            };
+        }
+
+        function buildPath(W, H, top, bottom, left) {
+            const h = bottom - top;
+            const r = Math.min(h / 2, 27);
+            const f = Math.max(0, Math.min(FILLET, top - CORNER, H - CORNER - bottom));
+            const n = function (v) { return v.toFixed(2); };
+
+            return (
+                "M0 0 H" + n(W - CORNER) +
+                " A" + CORNER + " " + CORNER + " 0 0 1 " + n(W) + " " + CORNER +
+                " V" + n(top - f) +
+                " A" + n(f) + " " + n(f) + " 0 0 1 " + n(W - f) + " " + n(top) +
+                " H" + n(left + r) +
+                " A" + n(r) + " " + n(r) + " 0 0 0 " + n(left) + " " + n(top + r) +
+                " V" + n(bottom - r) +
+                " A" + n(r) + " " + n(r) + " 0 0 0 " + n(left + r) + " " + n(bottom) +
+                " H" + n(W - f) +
+                " A" + n(f) + " " + n(f) + " 0 0 1 " + n(W) + " " + n(bottom + f) +
+                " V" + n(H - CORNER) +
+                " A" + CORNER + " " + CORNER + " 0 0 1 " + n(W - CORNER) + " " + n(H) +
+                " H0 Z"
+            );
+        }
+
+        function renderShape() {
+            const W = sidebar.offsetWidth;
+            const H = sidebar.offsetHeight;
+            const size = sidebarBubble.offsetWidth || 44;
+
+            sidebar.style.setProperty(
+                "--sidebar-clip",
+                "path('" + buildPath(W, H, SHAPE.top, SHAPE.bottom, SHAPE.left) + "')"
+            );
+
+            /* bubble: horizontally centred in the round end of the notch,
+               vertically centred in the notch (so it follows the stretch) */
+            const x = SHAPE.left + (SHAPE.item - size) / 2;
+            const y = (SHAPE.top + SHAPE.bottom) / 2 - size / 2;
+
+            sidebarBubble.style.transform = "translate3d(" + x.toFixed(2) + "px," + y.toFixed(2) + "px,0)";
+            sidebar.classList.add("is-shaped");
+        }
+
+        function glideStep(now) {
+            glideRaf = 0;
+            if (!glide) return;
+
+            const to = measureActive();
+            if (!to) { glide = null; return; }
+
+            const t = now - glide.t0;
+            const LEAD = 380, TRAIL = 580;
+            const dTop = glide.down ? TRAIL : LEAD;
+            const dBottom = glide.down ? LEAD : TRAIL;
+
+            const kTop = glide.down ? easeInOutCubic(clamp01(t / dTop)) : easeOutBack(clamp01(t / dTop));
+            const kBottom = glide.down ? easeOutBack(clamp01(t / dBottom)) : easeInOutCubic(clamp01(t / dBottom));
+            const kLeft = easeOutBack(clamp01(t / LEAD));
+
+            SHAPE.top = lerp(glide.from.top, to.top, kTop);
+            SHAPE.bottom = lerp(glide.from.bottom, to.bottom, kBottom);
+            SHAPE.left = lerp(glide.from.left, to.left, kLeft);
+            SHAPE.item = to.bottom - to.top;
+            renderShape();
+
+            if (t < TRAIL) {
+                glideRaf = requestAnimationFrame(glideStep);
+            } else {
+                glide = null;
+                SHAPE.top = to.top; SHAPE.bottom = to.bottom; SHAPE.left = to.left;
+                renderShape();
+            }
+        }
+
+        function updateSidebarShape(opts) {
+            const m = measureActive();
+
+            if (!m) {
+                sidebar.style.removeProperty("--sidebar-clip");
+                sidebar.classList.remove("is-shaped");
+                return;
+            }
+
+            /* bubble colour = accent of the active item */
+            const accent = getComputedStyle(m.link).getPropertyValue("--accent").trim();
+            if (accent) sidebar.style.setProperty("--bubble-color", accent);
+
+            if (opts && opts.animate && SHAPE.ready && !reduceMotion.matches) {
+
+                glide = {
+                    t0: performance.now(),
+                    from: { top: SHAPE.top, bottom: SHAPE.bottom, left: SHAPE.left },
+                    down: m.top >= SHAPE.top
+                };
+                if (!glideRaf) glideRaf = requestAnimationFrame(glideStep);
+                return;
+            }
+
+            if (glide) return;
+
+            SHAPE.top = m.top;
+            SHAPE.bottom = m.bottom;
+            SHAPE.left = m.left;
+            SHAPE.item = m.bottom - m.top;
+            SHAPE.ready = true;
+            renderShape();
+        }
+
+        /* While the sidebar width animates, follow it frame by frame */
+        let trackRaf = 0;
+        function trackShape(ms) {
+            cancelAnimationFrame(trackRaf);
+            const end = performance.now() + ms;
+
+            (function loop() {
+                updateSidebarShape();
+                if (performance.now() < end) trackRaf = requestAnimationFrame(loop);
+            })();
+        }
+
+        if (window.ResizeObserver) {
+            new ResizeObserver(function () { updateSidebarShape(); }).observe(sidebar);
+        }
+
+        window.addEventListener("resize", function () { updateSidebarShape(); });
+        window.addEventListener("load", function () { updateSidebarShape(); });
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function () { updateSidebarShape(); });
+        }
+
+
+        /* =========================================
+           SIDEBAR: NAVIGATION + MOBILE DRAWER
+        ========================================= */
+
+        function closeSidebar() {
+            sidebar.classList.remove("is-open");
+            sidebarBackdrop.classList.remove("is-visible");
+            sidebarToggle.setAttribute("aria-expanded", "false");
+        }
+
+        sidebarToggle.addEventListener("click", function () {
+            const isOpen = sidebar.classList.toggle("is-open");
+            sidebarBackdrop.classList.toggle("is-visible", isOpen);
+            sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        sidebarBackdrop.addEventListener("click", closeSidebar);
+
+        navLinks.forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                if (link.dataset.placeholder === "true") {
+                    e.preventDefault();               /* placeholder pages don't exist yet */
+                }
+
+                if (!link.classList.contains("is-active")) {
+                    navLinks.forEach(function (item) {
+                        item.classList.remove("is-active");
+                        item.removeAttribute("aria-current");
+                    });
+                    link.classList.add("is-active");
+                    link.setAttribute("aria-current", "page");
+
+                    updateSidebarShape({ animate: true });
+                }
+
+                closeSidebar();
+            });
+        });
+
+
+        /* =========================================
+           SIDEBAR: DESKTOP MINIMIZE / MAXIMIZE
+        ========================================= */
+
+        const sidebarCollapse = document.getElementById("sidebarCollapse");
+        const SIDEBAR_KEY = "equiwork.sidebar.collapsed";
+
+        /* 851px–1100px (typically a laptop in split-screen): the sidebar starts
+           minimized so the dashboard keeps its room. The user can still maximize it. */
+        const narrowDesktop = window.matchMedia("(min-width: 851px) and (max-width: 1100px)");
+        let userToggledNarrow = false;
+
+        function readSavedCollapsed() {
+            try {
+                return localStorage.getItem(SIDEBAR_KEY) === "1";
+            } catch (err) {
+                return false;
+            }
+        }
+
+        function setSidebarCollapsed(collapsed, persist) {
+            sidebar.classList.toggle("is-collapsed", collapsed);
+            sidebarCollapse.setAttribute("aria-expanded", String(!collapsed));
+
+            const label = collapsed ? "Maximize sidebar" : "Minimize sidebar";
+            sidebarCollapse.setAttribute("aria-label", label);
+            sidebarCollapse.setAttribute("title", label);
+
+            if (persist) {
+                try {
+                    localStorage.setItem(SIDEBAR_KEY, collapsed ? "1" : "0");
+                } catch (err) {
+
+                }
+            }
+
+            trackShape(460);
+        }
+
+        sidebarCollapse.addEventListener("click", function () {
+            const next = !sidebar.classList.contains("is-collapsed");
+            userToggledNarrow = narrowDesktop.matches;
+            setSidebarCollapsed(next, !narrowDesktop.matches);
+        });
+
+        function syncResponsiveSidebar() {
+            if (narrowDesktop.matches) {
+                if (!userToggledNarrow) setSidebarCollapsed(true, false);
+            } else {
+                userToggledNarrow = false;
+                setSidebarCollapsed(readSavedCollapsed(), false);
+            }
+        }
+
+        narrowDesktop.addEventListener("change", syncResponsiveSidebar);
+
+        sidebar.classList.add("no-anim");
+        setSidebarCollapsed(narrowDesktop.matches ? true : readSavedCollapsed(), false);
+        updateSidebarShape();
+
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                sidebar.classList.remove("no-anim");
+                updateSidebarShape();
+            });
+        });
+
+
+        /* =========================================
+           JOB ELEMENTS & CLEAR BUTTONS
+        ========================================= */
+
+        const jobListings = document.getElementById("jobListings");
+        const jobSearch = document.getElementById("jobSearch");
+        const clearJobSearch = document.getElementById("clearJobSearch");
+        const locationInput = document.getElementById("locationInput");
+        const clearLocation = document.getElementById("clearLocation");
+        const resultsCount = document.getElementById("resultsCount");
+        const noResults = document.getElementById("noResults");
+        const filterBadge = document.getElementById("filterBadge");
+
+        const cards = Array.from(document.querySelectorAll(".job-card"));
+
+        function syncClearButtons() {
+            clearLocation.hidden = locationInput.value.length === 0;
+            clearJobSearch.hidden = jobSearch.value.length === 0;
+        }
+
+        /* each X clears only its own field */
+        clearJobSearch.addEventListener("click", function () {
+            jobSearch.value = "";
+            syncClearButtons();
+            document.querySelectorAll(".chip").forEach(function (c) {
+                c.classList.remove("is-on");
+            });
+            jobSearch.focus();
+            filterJobs();
+        });
+
+
+        /* =========================================
+           SEARCH FORM
+        ========================================= */
+
+        document.getElementById("searchForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            filterJobs();
+        });
+
+
+        /* =========================================
+           FILTER POPOVER
+        ========================================= */
+
+        const filterBtn = document.getElementById("filterBtn");
+        const filterPanel = document.getElementById("filterPanel");
+
+        function setFilterPanel(open) {
+            filterPanel.classList.toggle("is-open", open);
+            filterBtn.classList.toggle("is-on", open);
+            filterBtn.setAttribute("aria-expanded", String(open));
+
+            if (!open) closeAllDropdowns(null);
+        }
+
+        filterBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            closeLocations();
+            closeAllDropdowns(null);
+            setFilterPanel(!filterPanel.classList.contains("is-open"));
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".filter-wrap")) {
+                setFilterPanel(false);
+            }
+        });
+
+        document.getElementById("clearFilters").addEventListener("click", function () {
+            resetFilterDropdowns();
+            filterJobs();
+        });
+
+
+        /* =========================================
+           UNIFIED DROPDOWNS (FILTER & SORT)
+        ========================================= */
+
+        function closeAllDropdowns(except) {
+            document.querySelectorAll(".dd.is-open").forEach(function (dd) {
+                if (dd !== except) {
+                    dd.classList.remove("is-open");
+                    const btn = dd.querySelector(".dd__btn");
+                    if (btn) btn.setAttribute("aria-expanded", "false");
+                }
+            });
+        }
+
+        function updateActiveFilterBadge() {
+            let activeCount = 0;
+            document.querySelectorAll(".filters .dd").forEach(function (dd) {
+                if (dd.dataset.value && dd.dataset.value !== "all") {
+                    activeCount++;
+                }
+            });
+
+            if (activeCount > 0) {
+                filterBadge.textContent = String(activeCount);
+                filterBadge.hidden = false;
+            } else {
+                filterBadge.hidden = true;
+            }
+        }
+
+        document.querySelectorAll(".dd").forEach(function (dd) {
+            const button = dd.querySelector(".dd__btn");
+            const label = dd.querySelector(".dd__label");
+            const items = dd.querySelectorAll(".dd__menu li");
+            const isSort = dd.classList.contains("dd--sort");
+
+            button.addEventListener("click", function (e) {
+                e.stopPropagation();
+                closeLocations();
+                closeAllDropdowns(dd);
+                const isOpen = dd.classList.toggle("is-open");
+                button.setAttribute("aria-expanded", String(isOpen));
+            });
+
+            items.forEach(function (item) {
+                item.addEventListener("click", function (e) {
+                    e.stopPropagation();
+
+                    items.forEach(function (li) {
+                        li.classList.remove("is-selected");
+                        li.setAttribute("aria-selected", "false");
+                    });
+
+                    item.classList.add("is-selected");
+                    item.setAttribute("aria-selected", "true");
+
+                    label.textContent = item.textContent;
+                    dd.dataset.value = item.dataset.value;
+
+                    dd.classList.remove("is-open");
+                    button.setAttribute("aria-expanded", "false");
+
+                    if (isSort) {
+                        applySorting(item.dataset.value);
+                    } else {
+                        dd.classList.toggle("has-value", item.dataset.value !== "all");
+                        updateActiveFilterBadge();
+                        filterJobs();
+                    }
+                });
+            });
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".dd")) {
+                closeAllDropdowns(null);
+            }
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                closeAllDropdowns(null);
+                closeLocations();
+                setFilterPanel(false);
+                account.classList.remove("is-open");
+                accountBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+
+        /* =========================================
+           GET FILTER VALUES
+        ========================================= */
+
+        function getFilterValue(name) {
+            const dropdowns = document.querySelectorAll(".filters .dd");
+            for (const dd of dropdowns) {
+                if (dd.dataset.filter === name) {
+                    return dd.dataset.value || "all";
+                }
+            }
+            return "all";
+        }
+
+
+        /* =========================================
+           FILTER JOBS
+        ========================================= */
+
+        function filterJobs() {
+            const searchValue = jobSearch.value.toLowerCase().trim();
+            const locationValue = locationInput.value.toLowerCase().trim();
+
+            const payFilter = getFilterValue("Pay");
+            const typeFilter = getFilterValue("Type");
+            const remoteFilter = getFilterValue("Remote");
+            const classificationFilter = getFilterValue("Classification");
+
+            let visibleCount = 0;
+
+            cards.forEach(function (card) {
+                const title = card.dataset.title.toLowerCase();
+                const company = card.dataset.company.toLowerCase();
+                const location = card.dataset.location.toLowerCase();
+                const description = card.querySelector(".job-card__description").textContent.toLowerCase();
+
+                const cardPay = Number(card.dataset.pay);
+                const cardType = card.dataset.type;
+                const cardWork = card.dataset.work;
+                const cardClassification = card.dataset.classification;
+
+                const searchableText = title + " " + company + " " + location + " " + description;
+
+                const matchesSearch = searchableText.includes(searchValue);
+                const matchesLocation = !locationValue || location.includes(locationValue);
+                const matchesType = typeFilter === "all" || cardType === typeFilter;
+                const matchesRemote = remoteFilter === "all" || cardWork === remoteFilter;
+
+                let matchesPay = true;
+                if (payFilter === "under20") {
+                    matchesPay = cardPay < 20000;
+                } else if (payFilter === "20to40") {
+                    matchesPay = cardPay >= 20000 && cardPay <= 40000;
+                } else if (payFilter === "over40") {
+                    matchesPay = cardPay > 40000;
+                }
+
+                const matchesClassification =
+                    classificationFilter === "all" || cardClassification === classificationFilter;
+
+                const showCard =
+                    matchesSearch &&
+                    matchesLocation &&
+                    matchesType &&
+                    matchesRemote &&
+                    matchesPay &&
+                    matchesClassification;
+
+                card.classList.toggle("is-hidden", !showCard);
+
+                if (showCard) {
+                    visibleCount++;
+                }
+            });
+
+            resultsCount.textContent =
+                "Showing " + visibleCount +
+                (visibleCount === 1 ? " Job Result" : " Job Results");
+
+            noResults.hidden = visibleCount !== 0;
+        }
+
+
+        /* =========================================
+           SEARCH EVENTS
+        ========================================= */
+
+        jobSearch.addEventListener("input", function () {
+            syncClearButtons();
+            filterJobs();
+        });
+
+
+        /* =========================================
+           SUGGESTION CHIPS
+        ========================================= */
+
+        document.querySelectorAll(".chip").forEach(function (chip) {
+            chip.addEventListener("click", function () {
+                const wasActive = chip.classList.contains("is-on");
+
+                document.querySelectorAll(".chip").forEach(function (c) {
+                    c.classList.remove("is-on");
+                });
+
+                if (wasActive) {
+                    jobSearch.value = "";
+                } else {
+                    chip.classList.add("is-on");
+                    const keyword = chip.textContent.trim();
+                    jobSearch.value = keyword !== "Your skill" ? keyword : "";
+                }
+
+                syncClearButtons();
+                filterJobs();
+            });
+        });
+
+
+        /* =========================================
+           LOCATION AUTOCOMPLETE
+        ========================================= */
+
+        const LOCATIONS = [
+            "Batangas City",
+            "Lipa City",
+            "Tanauan City",
+            "Santo Tomas",
+            "Manila",
+            "Quezon City",
+            "Makati",
+            "Taguig",
+            "Pasig",
+            "Cebu City",
+            "Davao City",
+            "Baguio",
+            "Iloilo City",
+            "Cagayan de Oro",
+            "Remote / Work from home"
+        ];
+
+        const locationMenu = document.getElementById("locationMenu");
+        const locationWrapper = document.querySelector(".search__loc");
+
+        function renderLocations() {
+            const query = locationInput.value.toLowerCase().trim();
+
+            const filtered = LOCATIONS.filter(function (location) {
+                return location.toLowerCase().includes(query);
+            });
+
+            locationMenu.innerHTML = "";
+
+            if (!query) {
+                const heading = document.createElement("li");
+                heading.className = "loc__head";
+                heading.textContent = "Popular locations";
+                locationMenu.appendChild(heading);
+            }
+
+            filtered.forEach(function (location) {
+                const item = document.createElement("li");
+                item.textContent = location;
+                item.setAttribute("role", "option");
+
+                item.addEventListener("click", function () {
+                    locationInput.value = location;
+                    syncClearButtons();
+                    closeLocations();
+                    filterJobs();
+                });
+
+                locationMenu.appendChild(item);
+            });
+
+            if (filtered.length === 0) {
+                const empty = document.createElement("li");
+                empty.className = "loc__empty";
+                empty.textContent = "Use your entered location";
+                locationMenu.appendChild(empty);
+            }
+        }
+
+        function openLocations() {
+            renderLocations();
+            locationWrapper.classList.add("is-open");
+        }
+
+        function closeLocations() {
+            locationWrapper.classList.remove("is-open");
+        }
+
+        locationInput.addEventListener("focus", function () {
+            setFilterPanel(false);
+            openLocations();
+        });
+
+        locationInput.addEventListener("input", function () {
+            syncClearButtons();
+            openLocations();
+            filterJobs();
+        });
+
+        clearLocation.addEventListener("click", function () {
+            locationInput.value = "";
+            syncClearButtons();
+            locationInput.focus();
+            openLocations();
+            filterJobs();
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!locationWrapper.contains(e.target)) {
+                closeLocations();
+            }
+        });
+
+
+        /* =========================================
+           SORT JOBS
+        ========================================= */
+
+        const sortDropdown = document.getElementById("sortDropdown");
+        const sortLabel = document.getElementById("sortLabel");
+
+        function applySorting(sortValue) {
+            const sortedCards = [...cards];
+
+            if (sortValue === "newest") {
+                sortedCards.sort(function (a, b) {
+                    return Number(b.dataset.date) - Number(a.dataset.date);
+                });
+            } else if (sortValue === "oldest") {
+                sortedCards.sort(function (a, b) {
+                    return Number(a.dataset.date) - Number(b.dataset.date);
+                });
+            } else if (sortValue === "title") {
+                sortedCards.sort(function (a, b) {
+                    return a.dataset.title.localeCompare(b.dataset.title);
+                });
+            }
+
+            sortedCards.forEach(function (card) {
+                jobListings.appendChild(card);
+            });
+
+            filterJobs();
+        }
+
+
+        /* =========================================
+           GRID AND LIST VIEW
+        ========================================= */
+
+        const gridView = document.getElementById("gridView");
+        const listView = document.getElementById("listView");
+
+        gridView.addEventListener("click", function () {
+            jobListings.classList.remove("list-view");
+            gridView.classList.add("is-on");
+            listView.classList.remove("is-on");
+            gridView.setAttribute("aria-pressed", "true");
+            listView.setAttribute("aria-pressed", "false");
+        });
+
+        listView.addEventListener("click", function () {
+            jobListings.classList.add("list-view");
+            listView.classList.add("is-on");
+            gridView.classList.remove("is-on");
+            listView.setAttribute("aria-pressed", "true");
+            gridView.setAttribute("aria-pressed", "false");
+        });
+
+
+        /* =========================================
+           SAVE JOB BUTTONS
+        ========================================= */
+
+        document.querySelectorAll(".save-job-btn").forEach(function (button) {
+            button.addEventListener("click", function () {
+                const saved = button.classList.toggle("is-saved");
+                button.textContent = saved ? "★ Saved" : "☆ Save Job";
+                button.setAttribute("aria-pressed", String(saved));
+            });
+        });
+
+
+        /* =========================================
+           RESET FILTERS
+        ========================================= */
+
+        function resetFilterDropdowns() {
+            document.querySelectorAll(".filters .dd").forEach(function (dd) {
+                dd.dataset.value = "all";
+                const label = dd.querySelector(".dd__label");
+                label.textContent = label.dataset.default;
+                dd.classList.remove("has-value", "is-open");
+                dd.querySelector(".dd__btn").setAttribute("aria-expanded", "false");
+                dd.querySelectorAll("li").forEach(function (li) {
+                    const isDefault = li.dataset.value === "all";
+                    li.classList.toggle("is-selected", isDefault);
+                    li.setAttribute("aria-selected", String(isDefault));
+                });
+            });
+
+            updateActiveFilterBadge();
+        }
+
+        document.getElementById("resetFilters").addEventListener("click", function () {
+            jobSearch.value = "";
+            locationInput.value = "";
+            syncClearButtons();
+
+            document.querySelectorAll(".chip").forEach(function (c) {
+                c.classList.remove("is-on");
+            });
+
+            resetFilterDropdowns();
+
+            sortDropdown.dataset.value = "newest";
+            sortLabel.textContent = "Newest";
+            sortDropdown.querySelectorAll("li").forEach(function (li) {
+                const isNewest = li.dataset.value === "newest";
+                li.classList.toggle("is-selected", isNewest);
+                li.setAttribute("aria-selected", String(isNewest));
+            });
+
+            applySorting("newest");
+        });
+
+
+        /* =========================================
+           ACCOUNT DROPDOWN
+        ========================================= */
+
+        const account = document.querySelector(".account");
+        const accountBtn = document.getElementById("accountBtn");
+
+        accountBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const isOpen = account.classList.toggle("is-open");
+            accountBtn.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!account.contains(e.target)) {
+                account.classList.remove("is-open");
+                accountBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================= */
+
+        syncClearButtons();
+        applySorting("newest");
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1956 @@
+:root {
+    --brand: #F4B323;
+    --brand-dark: #D99500;
+    --brand-soft: #FFF1C2;
+
+    --surface: #FFFDF7;
+    --white: #ffffff;
+
+    --ink: #292313;
+    --ink-soft: rgba(41, 35, 19, .74);
+    --muted: #817968;
+    --line: #EEE4CC;
+
+    --sidebar-w: 248px;
+    --sidebar-w-collapsed: 86px;
+    --nav-h: 54px;
+    --bubble: 44px;
+    --sidebar-ease: cubic-bezier(.4, 0, .2, 1);
+    --sidebar-speed: .3s;
+
+    --bg-blur: 10px;
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+
+    --shadow-sm: 0 2px 10px rgba(90, 65, 10, .07);
+    --shadow-md: 0 12px 30px rgba(90, 65, 10, .14);
+}
+
+
+/* =========================================
+   GENERAL
+========================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    background: var(--surface);
+
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    font-family: "Poppins", "Segoe UI", sans-serif;
+
+    color: var(--ink);
+    background: transparent;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-layer iframe.bg {
+    position: absolute;
+    top: -24px;
+    left: -24px;
+
+    width: calc(100% + 48px);
+    height: calc(100% + 48px);
+
+    display: block;
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    filter: blur(var(--bg-blur));
+    transform: translateZ(0);
+}
+
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.app-shell {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    position: relative;
+}
+
+.main-stage {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================
+   LEFT SIDEBAR
+========================================= */
+
+.sidebar {
+    width: var(--sidebar-w);
+    flex: 0 0 var(--sidebar-w);
+
+    position: sticky;
+    top: 0;
+    left: 0;
+    align-self: flex-start;
+
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    z-index: 25;
+
+    color: var(--ink);
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        width var(--sidebar-speed) var(--sidebar-ease),
+        flex-basis var(--sidebar-speed) var(--sidebar-ease);
+}
+
+.sidebar__shape {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+
+    pointer-events: none;
+    filter: drop-shadow(5px 0 14px rgba(40, 28, 90, .18));
+}
+
+.sidebar__shape::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: var(--brand);
+    border-radius: 0 26px 26px 0;
+    clip-path: var(--sidebar-clip, none);
+}
+
+
+/* HEAD: LOGO + COLLAPSE BUTTON */
+
+.sidebar__head {
+    flex: none;
+    height: 92px;
+    padding: 0 16px 0 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    transition:
+        padding var(--sidebar-speed) var(--sidebar-ease),
+        gap var(--sidebar-speed) var(--sidebar-ease);
+}
+
+.sidebar__brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 156px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+    text-decoration: none;
+
+    transition:
+        max-width var(--sidebar-speed) var(--sidebar-ease),
+        opacity .2s ease;
+}
+
+.sidebar__brand img {
+    display: block;
+    width: 152px;
+    height: 58px;
+    flex: none;
+
+    object-fit: contain;
+    object-position: left center;
+}
+
+
+/* COLLAPSE / EXPAND BUTTON */
+
+/* Around line 223 in employer.css */
+.sidebar-collapse {
+    position: absolute;
+    top: 28px;
+    right: -15px;
+    /* Floats right on the sidebar border */
+    z-index: 30;
+
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    background: var(--white);
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(41, 35, 19, 0.12);
+
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.sidebar-collapse:hover {
+    background: var(--brand);
+    color: var(--ink);
+    transform: scale(1.08);
+}
+
+.sidebar-collapse:active {
+    transform: scale(.94);
+}
+
+.sidebar-collapse svg {
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    transition: transform var(--sidebar-speed) var(--sidebar-ease);
+}
+
+
+/* NAVIGATION */
+
+.side-nav {
+    position: relative;
+    z-index: 2;
+
+    flex: 1 1 auto;
+    padding: 18px 14px 18px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    transition: padding var(--sidebar-speed) var(--sidebar-ease);
+}
+
+.side-nav__link {
+    --accent: var(--brand);
+    --accent-ink: var(--ink);
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    height: var(--nav-h);
+    padding: 0 0 0 calc((var(--nav-h) - 20px) / 2);
+    border-radius: 999px;
+
+    color: rgba(41, 35, 19, .72);
+    text-decoration: none;
+
+    font-size: .88rem;
+    font-weight: 500;
+
+    white-space: nowrap;
+    overflow: hidden;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        gap var(--sidebar-speed) var(--sidebar-ease);
+}
+
+.side-nav__link svg {
+    flex: none;
+
+    width: 20px;
+    height: 20px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    transition: color .15s ease;
+}
+
+.side-nav__label {
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    transition:
+        max-width var(--sidebar-speed) var(--sidebar-ease),
+        opacity .2s ease;
+}
+
+.side-nav__link:hover:not(.is-active) {
+    background: rgba(41, 35, 19, .06);
+    color: var(--ink);
+}
+
+.side-nav__link:focus-visible,
+.sidebar-collapse:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -2px;
+}
+
+.side-nav__link.is-active {
+    background: transparent;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.side-nav__link.is-active svg {
+    color: var(--accent-ink);
+    transition: color .22s ease .3s;
+}
+
+.side-nav__bubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    width: var(--bubble);
+    height: var(--bubble);
+    border-radius: 50%;
+
+    background-color: var(--white);
+    box-shadow: 0 3px 8px rgba(41, 35, 19, .16);
+
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+
+    transition: background-color .45s ease, opacity .25s ease;
+}
+
+.sidebar.is-shaped .side-nav__bubble {
+    opacity: 1;
+}
+
+
+/* SIDEBAR FOOTER PROFILE */
+
+.sidebar__foot {
+    position: relative;
+    z-index: 2;
+
+    flex: none;
+    padding: 14px 16px 20px;
+    border-top: 1px solid rgba(41, 35, 19, .08);
+
+    transition: padding var(--sidebar-speed) var(--sidebar-ease);
+}
+
+.sidebar__profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 9px;
+    /* avatar left edge = 25px, same as collapse button */
+    border-radius: var(--radius-md);
+    background: rgba(41, 35, 19, .04);
+    overflow: hidden;
+
+    transition:
+        padding var(--sidebar-speed) var(--sidebar-ease),
+        gap var(--sidebar-speed) var(--sidebar-ease),
+        background .2s ease;
+}
+
+.sidebar__profile-avatar {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--ink);
+    font-size: .75rem;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+}
+
+.sidebar__profile-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 150px;
+    overflow: hidden;
+
+    transition:
+        max-width var(--sidebar-speed) var(--sidebar-ease),
+        opacity .2s ease;
+}
+
+.sidebar__profile-name {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar__profile-role {
+    font-size: .66rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+
+/* COLLAPSED SIDEBAR (desktop + split-screen)
+   Below 851px the sidebar is an off-canvas drawer and is never collapsed. */
+
+@media (min-width: 851px) {
+    .sidebar.is-collapsed {
+        width: var(--sidebar-w-collapsed);
+        flex-basis: var(--sidebar-w-collapsed);
+    }
+
+    @media (min-width: 851px) {
+        .sidebar.is-collapsed .sidebar__head {
+            height: 92px;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .sidebar.is-collapsed .sidebar__brand {
+            max-width: 52px;
+            opacity: 1;
+            pointer-events: auto;
+            justify-content: center;
+        }
+
+        .sidebar.is-collapsed .sidebar__brand img {
+            width: 44px;
+            height: 44px;
+            object-position: center;
+        }
+    }
+
+    .sidebar.is-collapsed .sidebar-collapse svg {
+        transform: rotate(180deg);
+    }
+
+    .sidebar.is-collapsed .side-nav {
+        padding-right: 16px;
+
+    }
+
+    .sidebar.is-collapsed .side-nav__link {
+        gap: 0;
+    }
+
+    .sidebar.is-collapsed .side-nav__label {
+        max-width: 0;
+        opacity: 0;
+    }
+
+    .sidebar.is-collapsed .sidebar__foot {
+        padding-right: 16px;
+    }
+
+    .sidebar.is-collapsed .sidebar__profile {
+        gap: 0;
+        background: transparent;
+    }
+
+    .sidebar.is-collapsed .sidebar__profile-info {
+        max-width: 0;
+        opacity: 0;
+    }
+
+}
+
+/* No animation on first paint / when restoring the saved state */
+.sidebar.no-anim,
+.sidebar.no-anim *,
+.sidebar.no-anim *::before,
+.sidebar.no-anim *::after {
+    transition: none !important;
+}
+
+
+.page-title,
+.employer-link,
+.account__name,
+.account__role,
+.chips__label,
+.results-bar__count,
+.results-bar__sub {
+    text-shadow: 0 0 10px rgba(255, 255, 255, .6), 0 0 2px rgba(255, 255, 255, .35);
+}
+
+
+/* =========================================
+   TOP NAVIGATION
+========================================= */
+
+.topbar {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.topbar__inner {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+
+    height: 88px;
+    padding: 0 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.topbar__title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+/* MOBILE SIDEBAR BUTTON */
+
+.sidebar-toggle {
+    display: none;
+    flex: none;
+
+    width: 40px;
+    height: 40px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: var(--white);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+
+    place-items: center;
+}
+
+.sidebar-toggle svg {
+    width: 21px;
+    height: 21px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+
+    stroke-linecap: round;
+}
+
+
+/* TOPBAR ACTIONS */
+
+.topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: none;
+}
+
+.employer-link {
+    color: var(--ink);
+
+    font-size: .84rem;
+    font-weight: 600;
+
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.employer-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   ACCOUNT
+========================================= */
+
+.account {
+    position: relative;
+}
+
+.account__btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 5px 10px;
+
+    border: 0;
+    border-radius: var(--radius-md);
+
+    background: transparent;
+    color: var(--ink);
+    transition: background .2s ease;
+}
+
+.account__btn:hover {
+    background: rgba(255, 255, 255, .55);
+}
+
+.account__avatar {
+    width: 38px;
+    height: 38px;
+    flex: none;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+    background: var(--white);
+}
+
+.account__avatar svg {
+    width: 20px;
+    height: 20px;
+
+    fill: none;
+    stroke: var(--brand-dark);
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.account__info {
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+    line-height: 1.35;
+}
+
+.account__name {
+    font-size: .8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.account__role {
+    font-size: .68rem;
+    color: var(--ink-soft);
+}
+
+.account__chev {
+    width: 15px;
+    height: 15px;
+    flex: none;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+
+    transition: transform .2s ease;
+}
+
+.account.is-open .account__chev {
+    transform: rotate(180deg);
+}
+
+
+/* ACCOUNT DROPDOWN */
+
+.account__menu {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+
+    width: 180px;
+
+    margin: 0;
+    padding: 6px;
+
+    list-style: none;
+
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(-6px);
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
+
+    z-index: 40;
+}
+
+.account.is-open .account__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.account__menu li a {
+    display: block;
+
+    padding: 9px 12px;
+
+    color: var(--ink);
+    text-decoration: none;
+
+    font-size: .8rem;
+    border-radius: 9px;
+    transition: background .15s ease;
+}
+
+.account__menu li a:hover {
+    background: var(--brand-soft);
+}
+
+
+/* =========================================
+   MAIN WORKSPACE
+========================================= */
+
+.workspace-content {
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+    padding: 4px 32px 45px;
+
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+
+/* =========================================
+   SEARCH BAR & UNIFIED CLEAR BUTTONS
+========================================= */
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+
+    padding: 10px 12px 10px 16px;
+
+    background: var(--white);
+
+    border: 1px solid #F1EBDD;
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.search__loc {
+    position: relative;
+    flex: 0 1 230px;
+    min-width: 150px;
+}
+
+.search__field {
+    height: 44px;
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    min-width: 0;
+    border-radius: var(--radius-sm);
+    transition: box-shadow .2s ease, background .2s ease;
+}
+
+.search__field--kw {
+    flex: 1 1 auto;
+}
+
+.search__field input {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    border: 0;
+    outline: none;
+    padding: 0;
+
+    background: transparent;
+
+    color: var(--ink);
+    font-size: .82rem;
+}
+
+.search__field input::placeholder {
+    color: #9B9385;
+}
+
+.search__field:focus-within {
+    box-shadow: 0 0 0 2px var(--brand-soft);
+}
+
+.search__divider {
+    width: 1px;
+    height: 28px;
+    background: var(--line);
+    flex: none;
+}
+
+.search__buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+}
+
+
+/* SEARCH ICONS */
+
+.icon {
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+    stroke: var(--brand-dark);
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    flex: none;
+}
+
+.icon--muted {
+    stroke: var(--muted);
+}
+
+
+/* UNIFIED CLEAR (X) BUTTON
+   One component for every search field: a fixed 22px circle that is the
+   last flex item of the field, so it can never overlap the icon or the
+   placeholder, whatever the field width. */
+
+.field__clear {
+    flex: none;
+
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    margin: 0 0 0 2px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: var(--brand-soft);
+    color: var(--ink);
+
+    transition: background .15s ease, transform .15s ease;
+}
+
+.field__clear svg {
+    width: 10px;
+    height: 10px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+}
+
+.field__clear:hover {
+    background: var(--brand);
+}
+
+.field__clear:active {
+    transform: scale(.92);
+}
+
+
+/* LOCATION AUTOCOMPLETE MENU */
+
+.loc__menu {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    left: 0;
+
+    width: 260px;
+    max-width: calc(100vw - 48px);
+    max-height: 260px;
+
+    overflow-y: auto;
+
+    margin: 0;
+    padding: 6px;
+
+    list-style: none;
+
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
+
+    z-index: 35;
+}
+
+.search__loc.is-open .loc__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.loc__menu li {
+    padding: 9px 12px;
+    border-radius: 9px;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.loc__menu li:hover {
+    background: var(--brand-soft);
+}
+
+.loc__head {
+    color: var(--muted);
+    font-size: .7rem !important;
+    font-weight: 600;
+    cursor: default !important;
+    background: transparent !important;
+}
+
+.loc__empty {
+    color: var(--muted);
+    cursor: default !important;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn {
+    height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 0 18px;
+
+    border: 0;
+    border-radius: 999px;
+
+    font-size: .8rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: background .2s ease, transform .15s ease;
+}
+
+.btn svg {
+    width: 17px;
+    height: 17px;
+    flex: none;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.btn--filter {
+    background: var(--brand-soft);
+    color: #795600;
+}
+
+.btn--filter:hover,
+.btn--filter.is-on {
+    background: #FFE49A;
+}
+
+.filter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--brand-dark);
+    color: var(--white);
+    font-size: .66rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.btn--seek {
+    padding: 0 22px;
+    background: var(--brand);
+    color: #FFFFFF;
+}
+
+.btn--seek:hover {
+    background: var(--brand-dark);
+}
+
+.btn:active {
+    transform: scale(.97);
+}
+
+
+/* =========================================
+   UNIFIED DROPDOWN SYSTEM (FILTER & SORT)
+   Both use .dd / .dd__btn / .dd__menu, so they share one look.
+========================================= */
+
+.dd {
+    position: relative;
+    display: inline-block;
+}
+
+.dd__btn {
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    background: var(--white);
+    color: var(--ink);
+
+    font-size: .76rem;
+    font-weight: 500;
+    white-space: nowrap;
+
+    box-shadow: 0 1px 4px rgba(90, 65, 10, .04);
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.dd__btn:hover,
+.dd.is-open .dd__btn {
+    border-color: var(--brand-dark);
+    box-shadow: 0 3px 10px rgba(90, 65, 10, .08);
+}
+
+.dd.has-value .dd__btn {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.dd__prefix {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.dd__btn--sort .dd__label {
+    font-weight: 600;
+}
+
+.dd__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dd__chev {
+    width: 14px;
+    height: 14px;
+    flex: none;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    transition: transform .2s ease;
+}
+
+.dd.is-open .dd__chev {
+    transform: rotate(180deg);
+}
+
+.dd__menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+
+    min-width: 185px;
+    max-width: calc(100vw - 32px);
+
+    margin: 0;
+    padding: 6px;
+
+    list-style: none;
+
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
+
+    z-index: 35;
+}
+
+.dd__menu--right {
+    left: auto;
+    right: 0;
+}
+
+.dd.is-open .dd__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.dd__menu li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 9px 12px;
+    border-radius: 9px;
+
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+
+.dd__menu li+li {
+    margin-top: 2px;
+}
+
+.dd__menu li:hover {
+    background: var(--brand-soft);
+}
+
+.dd__menu li.is-selected {
+    background: var(--brand-soft);
+    color: #795600;
+    font-weight: 600;
+}
+
+.dd__menu li.is-selected::after {
+    content: "";
+    flex: none;
+    width: 12px;
+    height: 12px;
+    background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D99500' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+}
+
+
+/* =========================================
+   FILTER POPOVER
+   Opens directly under the Filter button, right-aligned to it, and
+   floats over the page (nothing below it is pushed around).
+========================================= */
+
+.filter-wrap {
+    position: relative;
+    flex: none;
+}
+
+.filters {
+    position: absolute;
+    top: calc(100% + 20px);
+    /* clears the bottom edge of the search bar */
+    right: 0;
+    z-index: 50;
+
+    width: min(384px, calc(100vw - 32px));
+    padding: 16px;
+
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px) scale(.98);
+    transform-origin: top right;
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
+}
+
+.filters.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.filters__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-bottom: 14px;
+}
+
+.filters__title {
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.filters__clear {
+    padding: 4px 8px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #A66D00;
+
+    font-size: .74rem;
+    font-weight: 600;
+
+    transition: background .15s ease;
+}
+
+.filters__clear:hover {
+    background: var(--brand-soft);
+}
+
+.filters__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.filters__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.filters__label {
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+.dd--block {
+    display: block;
+    width: 100%;
+}
+
+.dd--block .dd__btn {
+    width: 100%;
+}
+
+.dd--block .dd__menu {
+    left: 0;
+    right: 0;
+    min-width: 0;
+}
+
+
+/* =========================================
+   SUGGESTIONS
+========================================= */
+
+.chips {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 9px;
+    margin: 20px 0 24px;
+}
+
+.chips__label {
+    margin-right: 4px;
+    color: var(--ink-soft);
+    font-size: .76rem;
+}
+
+.chip {
+    padding: 7px 15px;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    background: var(--white);
+    color: #766C5C;
+
+    font-size: .73rem;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.chip:hover,
+.chip.is-on {
+    background: var(--brand-soft);
+    color: #795600;
+    border-color: var(--brand);
+}
+
+
+/* =========================================
+   RESULTS TOOLBAR
+========================================= */
+
+.results-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    gap: 14px;
+    margin: 22px 0 18px;
+    position: relative;
+    z-index: 15;
+}
+
+.results-info p {
+    margin: 0;
+}
+
+.results-bar__count {
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.results-bar__sub {
+    color: var(--ink-soft);
+    font-size: .68rem;
+}
+
+.results-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* =========================================
+   GRID AND LIST BUTTONS
+========================================= */
+
+.views {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.views__btn {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    background: var(--white);
+    color: var(--muted);
+
+    transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.views__btn svg {
+    width: 17px;
+    height: 17px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.views__btn:hover,
+.views__btn.is-on {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: var(--ink);
+}
+
+
+/* =========================================
+   JOB LISTINGS GRID
+========================================= */
+
+.job-listings {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    padding-bottom: 30px;
+}
+
+
+/* =========================================
+   JOB CARD
+========================================= */
+
+.job-card {
+    min-width: 0;
+    min-height: 265px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+
+    background: var(--white);
+
+    border: 1px solid #F0EBDD;
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand);
+}
+
+.job-card.is-hidden {
+    display: none !important;
+}
+
+.job-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.job-card__company {
+    min-width: 0;
+}
+
+.company-name {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: .69rem;
+}
+
+.job-card__company h3 {
+    margin: 0;
+    color: var(--ink);
+    font-size: .91rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.company-logo-placeholder {
+    width: 45px;
+    height: 45px;
+    flex: none;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: var(--radius-sm);
+
+    background: var(--brand);
+    color: #FFFFFF;
+
+    font-size: .55rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+}
+
+.job-card__salary {
+    margin: 15px 0 10px;
+    color: #AD7600;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.job-card__description {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: .69rem;
+    line-height: 1.65;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.job-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-top: auto;
+    margin-bottom: 14px;
+}
+
+.job-tag {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--brand-soft);
+    color: #795600;
+    font-size: .64rem;
+    font-weight: 500;
+}
+
+.job-card__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.job-location {
+    color: var(--muted);
+    font-size: .67rem;
+}
+
+.save-job-btn {
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    color: #857B69;
+    font-size: .68rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color .2s ease;
+}
+
+.save-job-btn:hover,
+.save-job-btn.is-saved {
+    color: #AD7600;
+}
+
+.save-job-btn.is-saved {
+    font-weight: 600;
+}
+
+
+/* =========================================
+   LIST VIEW
+========================================= */
+
+.job-listings.list-view {
+    grid-template-columns: 1fr;
+}
+
+.job-listings.list-view .job-card {
+    min-height: 0;
+}
+
+.job-listings.list-view .job-card__description {
+    -webkit-line-clamp: 2;
+}
+
+
+/* =========================================
+   NO RESULTS
+========================================= */
+
+.no-results {
+    padding: 55px 20px;
+    text-align: center;
+    background: var(--white);
+    border: 1px dashed var(--brand);
+    border-radius: var(--radius-lg);
+}
+
+.no-results h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+}
+
+.no-results p {
+    color: var(--muted);
+    font-size: .78rem;
+}
+
+.no-results button {
+    padding: 9px 20px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--brand);
+    color: var(--ink);
+    font-size: .76rem;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   MOBILE SIDEBAR BACKDROP
+========================================= */
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(41, 35, 19, .45);
+    z-index: 20;
+}
+
+.sidebar-backdrop.is-visible {
+    display: block;
+}
+
+
+/* =========================================
+   SPLIT-SCREEN & LAPTOP RESPONSIVENESS
+   851px – 1220px. JS also auto-minimizes the sidebar up to 1100px so
+   the dashboard keeps its room; the user can still maximize it.
+========================================= */
+
+@media (min-width: 851px) and (max-width: 1220px) {
+
+    :root {
+        --sidebar-w: 224px;
+    }
+
+    .sidebar__head {
+        padding-right: 14px;
+    }
+
+    .sidebar__brand img {
+        width: 132px;
+        height: 52px;
+    }
+
+    .sidebar__brand {
+        max-width: 136px;
+    }
+
+    .topbar__inner {
+        height: 80px;
+        padding: 0 22px;
+    }
+
+    .workspace-content {
+        padding: 4px 22px 36px;
+    }
+
+    .search {
+        flex-wrap: wrap;
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .search__loc {
+        flex: 1 1 200px;
+    }
+
+    .search__field--kw {
+        flex: 2 1 240px;
+    }
+
+    .search__divider {
+        display: none;
+    }
+
+    .search__buttons {
+        margin-left: auto;
+    }
+
+    .job-listings {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+}
+
+@media (min-width: 851px) and (max-width: 1024px) {
+
+    .employer-link {
+        display: none;
+    }
+
+    .job-listings {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================
+   TABLET & MOBILE DRAWER (<= 850px)
+========================================= */
+
+@media (max-width: 850px) {
+
+    .sidebar-collapse {
+        display: none;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 256px;
+        flex: none;
+
+        /* extra 40px keeps the soft shadow off-screen while closed */
+        transform: translateX(calc(-100% - 40px));
+        transition: transform .28s var(--sidebar-ease);
+    }
+
+    .sidebar.is-open {
+        transform: translateX(0);
+    }
+
+    .sidebar::before {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+
+        border-radius: 0 26px 26px 0;
+        background: rgba(255, 255, 255, .55);
+        -webkit-backdrop-filter: blur(18px);
+        backdrop-filter: blur(18px);
+
+        pointer-events: none;
+    }
+
+    .sidebar-toggle {
+        display: grid;
+    }
+
+    .topbar__inner {
+        padding: 0 20px;
+    }
+
+    .workspace-content {
+        padding: 4px 20px 36px;
+    }
+
+    .search {
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+
+    .search__loc,
+    .search__field--kw {
+        flex: 1 1 100%;
+    }
+
+    .search__divider {
+        display: none;
+    }
+
+    .search__buttons {
+        width: 100%;
+    }
+
+    .filter-wrap,
+    .btn--seek {
+        flex: 1 1 0;
+    }
+
+    .filter-wrap .btn {
+        width: 100%;
+    }
+
+    .filters {
+        right: auto;
+        left: 0;
+        transform-origin: top left;
+    }
+
+    .job-listings {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .topbar__inner {
+        height: 74px;
+        padding: 0 16px;
+    }
+
+    .workspace-content {
+        padding: 4px 16px 30px;
+    }
+
+    .page-title {
+        font-size: 1.05rem;
+    }
+
+    .account__info,
+    .account__chev,
+    .employer-link {
+        display: none;
+    }
+
+    .results-toolbar {
+        align-items: flex-start;
+    }
+
+    .results-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .job-listings {
+        grid-template-columns: 1fr;
+    }
+
+    .job-card {
+        min-height: 235px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .filters__grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+
+}
