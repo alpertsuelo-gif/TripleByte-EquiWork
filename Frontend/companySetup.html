@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EquiWork | Create Your Company Account</title>
+
+<style>
+:root {
+    --primary: #261fc4;
+    --primary-dark: #15117a;
+    --heading-color: #1f2247;
+    --text-main: #222638;
+    --text-muted: #4b5068;
+    --border-input: #8a8f9e;
+    --input-bg: rgba(243, 244, 248, 0.85);
+    --error-red: #b91c1c;
+    --glass-bg: rgba(255, 255, 255, 0.86);
+    --glass-border: rgba(255, 255, 255, 0.92);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: transparent;
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+.background-frame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -1;
+}
+
+/* WRAPPER FOR EXTERNAL TOP-RIGHT LINK + CARD */
+.card-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    animation: cardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* EXTERNAL TOP-RIGHT LINK */
+.switch-role-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+    padding-right: 4px;
+}
+
+.switch-role-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: #e4a928;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.switch-role-link:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+/* MAIN GLASS CARD */
+.setup-card {
+    position: relative;
+    width: 100%;
+    padding: 38px 46px 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--glass-bg);
+    backdrop-filter: blur(36px) saturate(160%);
+    -webkit-backdrop-filter: blur(36px) saturate(160%);
+
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+
+    box-shadow:
+        0 24px 60px rgba(15, 20, 55, 0.22),
+        0 4px 16px rgba(15, 20, 55, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.95);
+}
+
+/* MAIN HEADER */
+.card-header {
+    margin-bottom: 24px;
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--heading-color);
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-size: 16px;
+    color: var(--text-main);
+}
+
+/* SECTION HEADINGS */
+.section-block {
+    margin-bottom: 26px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--heading-color);
+    margin-bottom: 12px;
+}
+
+.section-title.no-margin {
+    margin-bottom: 2px;
+}
+
+.section-subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+}
+
+/* TWO-COLUMN GRID */
+.two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-label {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: 2px;
+}
+
+.field-helper {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-bottom: 7px;
+}
+
+/* STANDARD INPUTS */
+.form-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 12px;
+    border: 1.5px solid var(--border-input);
+    border-radius: 7px;
+    background: var(--input-bg);
+    font-size: 14px;
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+.form-input:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #6b7280;
+}
+
+.form-input:focus {
+    background: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(38, 31, 196, 0.14);
+}
+
+.form-input.input-error {
+    border-color: var(--error-red);
+}
+
+/* CONTACT NUMBER SPLIT ROW */
+.contact-row {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+/* CUSTOM COUNTRY SELECT DROPDOWN */
+.custom-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.select-trigger {
+    width: 100%;
+    height: 36px;
+    padding: 0 12px;
+    border: 1.5px solid var(--border-input);
+    border-radius: 7px;
+    background: rgba(217, 229, 226, 0.72);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.select-trigger:hover {
+    border-color: #6b7280;
+}
+
+.select-trigger:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(38, 31, 196, 0.14);
+}
+
+.select-chevron {
+    width: 16px;
+    height: 16px;
+    stroke: #1f2937;
+    stroke-width: 2.2;
+    fill: none;
+    transition: transform 0.2s ease;
+}
+
+.custom-select.open .select-chevron {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+    max-height: 185px;
+    overflow-y: auto;
+    z-index: 20;
+    display: none;
+}
+
+.custom-select.open .select-options {
+    display: block;
+}
+
+.select-option {
+    padding: 8px 12px;
+    font-size: 13.5px;
+    color: #111827;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.select-option:hover,
+.select-option.selected {
+    background: rgba(217, 229, 226, 0.65);
+    font-weight: 600;
+}
+
+/* EMAIL DISPLAY ROW */
+.email-display-block {
+    margin-bottom: 14px;
+}
+
+.email-value {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* PRIMARY CTA BUTTON */
+.submit-row {
+    margin-top: 6px;
+}
+
+.btn-create {
+    min-width: 175px;
+    height: 38px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 7px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(38, 31, 196, 0.26);
+    transition: all 0.2s ease;
+}
+
+.btn-create:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(38, 31, 196, 0.34);
+}
+
+.btn-create:active {
+    transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .setup-card {
+        padding: 30px 24px 32px;
+    }
+
+    .card-title {
+        font-size: 26px;
+    }
+
+    .two-col-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .btn-create {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND HTML -->
+<iframe
+    src="/background_template.html"
+    class="background-frame"
+    title="EquiWork Background">
+</iframe>
+
+<!-- WRAPPER -->
+<div class="card-wrapper">
+
+    <!-- TOP-RIGHT ROLE SWITCH LINK -->
+    <div class="switch-role-bar">
+        <a href="register-employee.html" class="switch-role-link">
+            Register as an employee?
+        </a>
+    </div>
+
+    <!-- COMPANY SETUP CARD -->
+    <main class="setup-card">
+
+        <header class="card-header">
+            <h1 class="card-title">Create your company account</h1>
+            <p class="card-subtitle">Complete this information to set up your account</p>
+        </header>
+
+        <form id="companySetupForm" novalidate>
+
+            <!-- COMPANY DETAILS -->
+            <section class="section-block">
+                <h2 class="section-title">Company Details</h2>
+
+                <div class="two-col-grid">
+                    <!-- Left Column: Company Name & Contact Number -->
+                    <div class="field-group">
+                        <label class="field-label" for="companyName">Company Name</label>
+                        <span class="field-helper">Use a registered work email address to help us verify your account</span>
+                        <input
+                            type="text"
+                            id="companyName"
+                            class="form-input"
+                            required
+                        >
+
+                        <div style="margin-top: 14px;">
+                            <label class="field-label" for="areaCode">Contact Number</label>
+                            <div class="contact-row">
+                                <input
+                                    type="text"
+                                    id="areaCode"
+                                    class="form-input"
+                                    placeholder="+63"
+                                    aria-label="Country or Area Code"
+                                    required
+                                >
+                                <input
+                                    type="tel"
+                                    id="phoneNumber"
+                                    class="form-input"
+                                    placeholder="9XX XXX XXXX"
+                                    aria-label="Phone Number"
+                                    required
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Country Dropdown -->
+                    <div class="field-group">
+                        <label class="field-label" id="countryLabel">Country</label>
+                        <span class="field-helper">Where is your business located</span>
+
+                        <div class="custom-select" id="countrySelect">
+                            <input type="hidden" id="countryValue" name="country" value="Philippines">
+                            <button
+                                type="button"
+                                class="select-trigger"
+                                aria-labelledby="countryLabel"
+                                aria-expanded="false"
+                            >
+                                <span id="selectedCountryText">Philippines</span>
+                                <svg class="select-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+
+                            <div class="select-options" role="listbox">
+                                <div class="select-option selected" data-value="Philippines" data-code="+63">Philippines</div>
+                                <div class="select-option" data-value="Puerto Rico" data-code="+1-787">Puerto Rico</div>
+                                <div class="select-option" data-value="Singapore" data-code="+65">Singapore</div>
+                                <div class="select-option" data-value="United States" data-code="+1">United States</div>
+                                <div class="select-option" data-value="United Kingdom" data-code="+44">United Kingdom</div>
+                                <div class="select-option" data-value="Australia" data-code="+61">Australia</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PERSONAL DETAILS -->
+            <section class="section-block" style="margin-bottom: 22px;">
+                <h2 class="section-title no-margin">Personal Details</h2>
+                <p class="section-subtitle">Enter your own details as the person creating this account</p>
+
+                <div class="email-display-block">
+                    <div class="field-label">Email</div>
+                    <div class="email-value" id="userEmailDisplay"></div>
+                </div>
+
+                <div class="two-col-grid">
+                    <div class="field-group">
+                        <label class="field-label" for="firstName" style="margin-bottom: 6px;">First Name</label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            class="form-input"
+                            autocomplete="given-name"
+                            required
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="lastName" style="margin-bottom: 6px;">Last Name</label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            class="form-input"
+                            autocomplete="family-name"
+                            required
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- SUBMIT BUTTON -->
+            <div class="submit-row">
+                <button type="submit" class="btn-create">
+                    Create Account
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<script>
+// Populate registered email from URL (?email=...) or localStorage if passed from register-employer.html
+const params = new URLSearchParams(window.location.search);
+const passedEmail = params.get("email") || localStorage.getItem("equiwork_register_email") || "";
+const emailDisplay = document.getElementById("userEmailDisplay");
+if (passedEmail) {
+    emailDisplay.textContent = passedEmail;
+}
+
+// Custom Country Dropdown Logic
+const countrySelect = document.getElementById("countrySelect");
+const selectTrigger = countrySelect.querySelector(".select-trigger");
+const selectedCountryText = document.getElementById("selectedCountryText");
+const countryValueInput = document.getElementById("countryValue");
+const areaCodeInput = document.getElementById("areaCode");
+const options = countrySelect.querySelectorAll(".select-option");
+
+selectTrigger.addEventListener("click", () => {
+    const isOpen = countrySelect.classList.toggle("open");
+    selectTrigger.setAttribute("aria-expanded", isOpen);
+});
+
+options.forEach(option => {
+    option.addEventListener("click", () => {
+        options.forEach(opt => opt.classList.remove("selected"));
+        option.classList.add("selected");
+
+        const country = option.dataset.value;
+        const code = option.dataset.code;
+
+        selectedCountryText.textContent = country;
+        countryValueInput.value = country;
+
+        // Auto-fill country calling code if area code field is empty or matches a previous country code
+        if (!areaCodeInput.value || areaCodeInput.dataset.auto === "true") {
+            areaCodeInput.value = code;
+            areaCodeInput.dataset.auto = "true";
+        }
+
+        countrySelect.classList.remove("open");
+        selectTrigger.setAttribute("aria-expanded", "false");
+    });
+});
+
+areaCodeInput.addEventListener("input", () => {
+    areaCodeInput.dataset.auto = "false";
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (e) => {
+    if (!countrySelect.contains(e.target)) {
+        countrySelect.classList.remove("open");
+        selectTrigger.setAttribute("aria-expanded", "false");
+    }
+});
+
+// Form Validation & Submit
+const form = document.getElementById("companySetupForm");
+const requiredIds = ["companyName", "areaCode", "phoneNumber", "firstName", "lastName"];
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    let firstInvalid = null;
+
+    requiredIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+            el.classList.add("input-error");
+            if (!firstInvalid) firstInvalid = el;
+        } else {
+            el.classList.remove("input-error");
+        }
+    });
+
+    if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+    }
+
+    console.log("Company account created:", {
+        companyName: document.getElementById("companyName").value.trim(),
+        country: countryValueInput.value,
+        contactNumber: `${areaCodeInput.value.trim()} ${document.getElementById("phoneNumber").value.trim()}`,
+        email: emailDisplay.textContent,
+        firstName: document.getElementById("firstName").value.trim(),
+        lastName: document.getElementById("lastName").value.trim()
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EquiWork | Employer Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="employer.css" />
+    <link rel="stylesheet" href="drawer_effect.css" />
+  </head>
+
+  <body>
+    <div class="bg-layer" aria-hidden="true">
+      <iframe
+        class="bg"
+        src="background-template.html"
+        title=""
+        tabindex="-1"
+      ></iframe>
+    </div>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="leftSidebar" aria-label="Primary navigation">
+        <div class="sidebar__shape" aria-hidden="true"></div>
+
+        <div class="sidebar__head">
+          <a
+            class="sidebar__brand"
+            href="#dashboard"
+            aria-label="EquiWork Home"
+          >
+            <img src="EquiWork-Logo.png" alt="EquiWork Logo" />
+          </a>
+
+          <button
+            class="sidebar-collapse"
+            id="sidebarCollapse"
+            type="button"
+            aria-label="Minimize sidebar"
+            aria-expanded="true"
+            title="Minimize sidebar"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 6l-6 6 6 6" />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="side-nav">
+          <a
+            href="#dashboard"
+            class="side-nav__link is-active"
+            style="--accent: #f4b323; --accent-ink: #292313"
+            title="Dashboard"
+            aria-current="page"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"
+              />
+            </svg>
+            <span class="side-nav__label">Dashboard</span>
+          </a>
+
+          <a
+            href="#job-postings"
+            class="side-nav__link"
+            data-placeholder="true"
+            style="--accent: #f4b323; --accent-ink: #292313"
+            title="Job Postings"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="7" width="18" height="13" rx="2" />
+              <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" />
+            </svg>
+            <span class="side-nav__label">Job Postings</span>
+          </a>
+
+          <a
+            href="#applicants"
+            class="side-nav__link"
+            data-placeholder="true"
+            style="--accent: #f4b323; --accent-ink: #292313"
+            title="Applicants"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="9" cy="8" r="3.2" />
+              <path d="M3 19c.5-3 2.8-4.8 6-4.8s5.5 1.8 6 4.8" />
+              <path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M18 14.6c1.8.6 2.7 2 3 4.4" />
+            </svg>
+            <span class="side-nav__label">Applicants</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__foot">
+          <div class="sidebar__profile" title="Employer Account">
+            <span class="sidebar__profile-avatar" aria-hidden="true">EA</span>
+            <div class="sidebar__profile-info">
+              <span class="sidebar__profile-name">EquiWork HR</span>
+              <span class="sidebar__profile-role">Verified Employer</span>
+            </div>
+          </div>
+        </div>
+        <span
+          class="side-nav__bubble"
+          id="sidebarBubble"
+          aria-hidden="true"
+        ></span>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-stage">
+        <!-- TOP NAVIGATION -->
+        <header class="topbar">
+          <div class="topbar__inner">
+            <div class="topbar__title-group">
+              <button
+                class="sidebar-toggle"
+                id="sidebarToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              <h1 class="page-title">Dashboard</h1>
+            </div>
+
+            <div class="topbar__actions">
+              <a href="#" class="employer-link">Employer site</a>
+
+              <div class="account">
+                <button
+                  class="account__btn"
+                  id="accountBtn"
+                  type="button"
+                  aria-expanded="false"
+                >
+                  <span class="account__avatar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="8.5" r="3.6" />
+                      <path
+                        d="M5.5 19.5c.6-3.3 3.2-5.2 6.5-5.2s5.9 1.9 6.5 5.2z"
+                      />
+                    </svg>
+                  </span>
+
+                  <span class="account__info">
+                    <span class="account__name">Employer Account</span>
+                    <span class="account__role">Admin</span>
+                  </span>
+
+                  <svg
+                    class="account__chev"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+
+                <ul class="account__menu" id="accountMenu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="#">Settings</a></li>
+                  <li><a href="signIn.html">Sign Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- DASHBOARD WORKSPACE -->
+        <main class="workspace-content" id="dashboard">
+          <!-- SEARCH BAR -->
+          <form class="search" id="searchForm">
+            <div class="search__loc">
+              <div class="search__field search__field--loc">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"
+                  />
+                  <circle cx="12" cy="9.5" r="2.5" />
+                </svg>
+
+                <input
+                  id="locationInput"
+                  type="text"
+                  placeholder="Around you"
+                  autocomplete="off"
+                  aria-label="Location"
+                />
+
+                <button
+                  class="field__clear"
+                  id="clearLocation"
+                  type="button"
+                  aria-label="Clear location"
+                  hidden
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                  </svg>
+                </button>
+              </div>
+
+              <ul class="loc__menu" id="locationMenu" role="listbox"></ul>
+            </div>
+
+            <span class="search__divider" aria-hidden="true"></span>
+
+            <div class="search__field search__field--kw">
+              <svg
+                class="icon icon--muted"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="6.5" />
+                <path d="M16 16l5 5" />
+              </svg>
+
+              <input
+                type="text"
+                id="jobSearch"
+                placeholder="Search by title, company, or keyword..."
+                autocomplete="off"
+                aria-label="Search jobs"
+              />
+
+              <button
+                class="field__clear"
+                id="clearJobSearch"
+                type="button"
+                aria-label="Clear keyword search"
+                hidden
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="search__buttons">
+              <!-- FILTER BUTTON + POPOVER -->
+              <div class="filter-wrap">
+                <button
+                  class="btn btn--filter"
+                  id="filterBtn"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="filterPanel"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
+                    <circle cx="16" cy="7" r="2" />
+                    <circle cx="8" cy="17" r="2" />
+                  </svg>
+                  <span>Filter</span>
+                  <span class="filter-badge" id="filterBadge" hidden>0</span>
+                </button>
+
+                <!-- FILTER OPTIONS -->
+                <div
+                  class="filters"
+                  id="filterPanel"
+                  role="dialog"
+                  aria-label="Filters"
+                >
+                  <div class="filters__head">
+                    <span class="filters__title">Filters</span>
+                    <button
+                      class="filters__clear"
+                      id="clearFilters"
+                      type="button"
+                    >
+                      Clear all
+                    </button>
+                  </div>
+
+                  <div class="filters__grid">
+                    <!-- SALARY FILTER -->
+                    <div class="filters__field">
+                      <span class="filters__label">Pay</span>
+                      <div class="dd dd--block" data-filter="Pay">
+                        <button
+                          class="dd__btn"
+                          type="button"
+                          aria-haspopup="listbox"
+                          aria-expanded="false"
+                        >
+                          <span class="dd__label" data-default="Any pay"
+                            >Any pay</span
+                          >
+                          <svg
+                            class="dd__chev"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </button>
+
+                        <ul class="dd__menu" role="listbox">
+                          <li
+                            data-value="all"
+                            class="is-selected"
+                            role="option"
+                            aria-selected="true"
+                          >
+                            Any pay
+                          </li>
+                          <li
+                            data-value="under20"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Under ₱20k
+                          </li>
+                          <li
+                            data-value="20to40"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            ₱20k – ₱40k
+                          </li>
+                          <li
+                            data-value="over40"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            ₱40k+
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <!-- EMPLOYMENT TYPE -->
+                    <div class="filters__field">
+                      <span class="filters__label">Type</span>
+                      <div class="dd dd--block" data-filter="Type">
+                        <button
+                          class="dd__btn"
+                          type="button"
+                          aria-haspopup="listbox"
+                          aria-expanded="false"
+                        >
+                          <span class="dd__label" data-default="Any type"
+                            >Any type</span
+                          >
+                          <svg
+                            class="dd__chev"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </button>
+
+                        <ul class="dd__menu" role="listbox">
+                          <li
+                            data-value="all"
+                            class="is-selected"
+                            role="option"
+                            aria-selected="true"
+                          >
+                            Any type
+                          </li>
+                          <li
+                            data-value="Full-time"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Full-time
+                          </li>
+                          <li
+                            data-value="Part-time"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Part-time
+                          </li>
+                          <li
+                            data-value="Contract"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Contract
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <!-- WORK ARRANGEMENT -->
+                    <div class="filters__field">
+                      <span class="filters__label">Remote</span>
+                      <div class="dd dd--block" data-filter="Remote">
+                        <button
+                          class="dd__btn"
+                          type="button"
+                          aria-haspopup="listbox"
+                          aria-expanded="false"
+                        >
+                          <span class="dd__label" data-default="Any arrangement"
+                            >Any arrangement</span
+                          >
+                          <svg
+                            class="dd__chev"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </button>
+
+                        <ul class="dd__menu" role="listbox">
+                          <li
+                            data-value="all"
+                            class="is-selected"
+                            role="option"
+                            aria-selected="true"
+                          >
+                            Any arrangement
+                          </li>
+                          <li
+                            data-value="On-site"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            On-site
+                          </li>
+                          <li
+                            data-value="Hybrid"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Hybrid
+                          </li>
+                          <li
+                            data-value="Remote"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Fully remote
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <!-- CLASSIFICATION -->
+                    <div class="filters__field">
+                      <span class="filters__label">Classification</span>
+                      <div class="dd dd--block" data-filter="Classification">
+                        <button
+                          class="dd__btn"
+                          type="button"
+                          aria-haspopup="listbox"
+                          aria-expanded="false"
+                        >
+                          <span
+                            class="dd__label"
+                            data-default="Any classification"
+                            >Any classification</span
+                          >
+                          <svg
+                            class="dd__chev"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </button>
+
+                        <ul class="dd__menu" role="listbox">
+                          <li
+                            data-value="all"
+                            class="is-selected"
+                            role="option"
+                            aria-selected="true"
+                          >
+                            Any classification
+                          </li>
+                          <li
+                            data-value="PWD"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            PWD
+                          </li>
+                          <li
+                            data-value="Senior citizen"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Senior citizen
+                          </li>
+                          <li
+                            data-value="Indigenous"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Indigenous
+                          </li>
+                          <li
+                            data-value="Solo parent"
+                            role="option"
+                            aria-selected="false"
+                          >
+                            Solo parent
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn btn--seek" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="6.5" />
+                  <path d="M16 16l5 5" />
+                </svg>
+                <span>Find</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- SUGGESTIONS -->
+          <div class="chips">
+            <span class="chips__label">Suggestions</span>
+
+            <button class="chip" type="button">Your skill</button>
+            <button class="chip" type="button">Landscaper</button>
+            <button class="chip" type="button">Carpenter</button>
+            <button class="chip" type="button">Content Creator</button>
+            <button class="chip" type="button">Delivery Rider</button>
+          </div>
+
+          <!-- RESULTS TOOLBAR -->
+          <div class="results-toolbar">
+            <div class="results-info">
+              <p class="results-bar__count" id="resultsCount">
+                Showing 1 Job Result
+              </p>
+              <p class="results-bar__sub">Based on your preferences</p>
+            </div>
+
+            <div class="results-controls">
+              <!-- SORT DROPDOWN (same .dd component as the filters) -->
+              <div class="dd dd--sort" id="sortDropdown" data-value="newest">
+                <button
+                  class="dd__btn dd__btn--sort"
+                  type="button"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                >
+                  <span class="dd__prefix">Sort:</span>
+                  <span class="dd__label" id="sortLabel">Newest</span>
+                  <svg class="dd__chev" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+
+                <ul class="dd__menu dd__menu--right" role="listbox">
+                  <li
+                    data-value="newest"
+                    class="is-selected"
+                    role="option"
+                    aria-selected="true"
+                  >
+                    Newest
+                  </li>
+                  <li data-value="oldest" role="option" aria-selected="false">
+                    Oldest
+                  </li>
+                  <li data-value="title" role="option" aria-selected="false">
+                    Job Title
+                  </li>
+                </ul>
+              </div>
+
+              <div class="views">
+                <button
+                  class="views__btn"
+                  id="listView"
+                  type="button"
+                  aria-label="List view"
+                  aria-pressed="false"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"
+                    />
+                  </svg>
+                </button>
+
+                <button
+                  class="views__btn is-on"
+                  id="gridView"
+                  type="button"
+                  aria-label="Grid view"
+                  aria-pressed="true"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="4" y="4" width="6" height="6" rx="1" />
+                    <rect x="14" y="4" width="6" height="6" rx="1" />
+                    <rect x="4" y="14" width="6" height="6" rx="1" />
+                    <rect x="14" y="14" width="6" height="6" rx="1" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- JOB LISTINGS -->
+          <section class="job-listings" id="jobListings">
+            <!-- JOB CARD 1 -->
+            <!-- Example of an Applicant/Worker Card in your HTML -->
+            <article
+              class="job-card"
+              data-title="Carpenter"
+              data-company="Maria Santos"
+              data-type="Full-time"
+              data-location="Malvar, Batangas"
+              data-work="On-site"
+              data-pay="18000"
+              data-classification="PWD"
+              data-date="2"
+            >
+              <div class="job-card__top">
+                <div class="job-card__company">
+                  <span class="company-name">Maria Santos</span>
+                  <h3>Carpenter</h3>
+                </div>
+                <div class="company-logo-placeholder">MS</div>
+              </div>
+
+              <p class="job-card__salary">₱18,000 / month</p>
+
+              <p class="job-card__description">
+                6 years of experience in cabinet making and house framing. Has
+                own tools and can start immediately.
+              </p>
+
+              <div class="job-card__tags">
+                <span class="job-tag">Full-time</span>
+                <span class="job-tag">Malvar, Batangas</span>
+              </div>
+
+              <div class="job-card__bottom">
+                <span class="job-location">Malvar, Batangas</span>
+                <button class="save-job-btn" type="button" aria-pressed="false">
+                  ☆ Save Profile
+                </button>
+              </div>
+            </article>
+          </section>
+
+          <!-- NO RESULTS -->
+          <div class="no-results" id="noResults" hidden>
+            <h3>No job listings found</h3>
+            <p>Try changing your search or filters.</p>
+            <button type="button" id="resetFilters">Clear Filters</button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- MOBILE SIDEBAR BACKDROP -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- SLIDING DRAWER OVERLAY -->
+    <div class="overlay" id="overlay" aria-hidden="true">
+      <section
+        class="panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="p-name"
+      >
+        <div class="banner">
+          <button class="close" id="close" aria-label="Close panel">✕</button>
+          <!-- Avatar is now inside the banner -->
+          <div class="avatar" id="p-init"></div>
+        </div>
+
+        <div class="body">
+          <!-- (Notice the avatar is removed from here) -->
+          <h2 id="p-name"></h2>
+          <p class="role" id="p-role"></p>
+          <dl>
+            <dt>Location</dt>
+            <dd id="p-loc"></dd>
+            <dt>Work type</dt>
+            <dd id="p-type"></dd>
+            <dt>Expected pay</dt>
+            <dd id="p-pay"></dd>
+            <dt>Applied</dt>
+            <dd id="p-date"></dd>
+          </dl>
+          <div class="about" id="p-about"></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn alt" id="msg">Message</button>
+          <button class="btn main" id="accept">Accept applicant</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="employer.js"></script>
+  </body>
+</html>

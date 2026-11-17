@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EquiWork | Create Your Account</title>
+
+<style>
+:root {
+    --primary: #261fc4;
+    --primary-dark: #15117a;
+    --heading-color: #1f2247;
+    --text-main: #222638;
+    --text-muted: #4b5068;
+    --glass-bg: rgba(255, 255, 255, 0.84);
+    --glass-border: rgba(255, 255, 255, 0.9);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: transparent;
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+.background-frame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -1;
+}
+
+/* CENTERED REGISTER CARD */
+.register-card {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    padding: 46px 68px 44px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: var(--glass-bg);
+    backdrop-filter: blur(36px) saturate(160%);
+    -webkit-backdrop-filter: blur(36px) saturate(160%);
+
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+
+    box-shadow:
+        0 24px 60px rgba(15, 20, 55, 0.18),
+        0 4px 16px rgba(15, 20, 55, 0.08),
+        inset 0 1px 1px rgba(255, 255, 255, 0.95);
+
+    overflow: hidden;
+    animation: cardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* HEADER */
+.card-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+}
+
+.card-subtitle {
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--text-muted);
+    max-width: 480px;
+}
+
+/* FORM & CHECKBOXES */
+.register-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.consent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 34px;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* CUSTOM CHECKBOX */
+.checkbox-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+}
+
+.checkbox-wrapper input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+    z-index: 2;
+}
+
+.checkbox-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #8a8f9e;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s ease;
+}
+
+.checkbox-box svg {
+    width: 15px;
+    height: 15px;
+    stroke: #111827;
+    stroke-width: 3;
+    fill: none;
+    opacity: 0;
+    transform: scale(0.75);
+    transition: all 0.16s ease;
+}
+
+.checkbox-wrapper input:hover + .checkbox-box {
+    border-color: var(--primary);
+}
+
+.checkbox-wrapper input:focus-visible + .checkbox-box {
+    box-shadow: 0 0 0 3px rgba(38, 31, 196, 0.22);
+    border-color: var(--primary);
+}
+
+.checkbox-wrapper input:checked + .checkbox-box {
+    border-color: #4b5563;
+    background: #ffffff;
+}
+
+.checkbox-wrapper input:checked + .checkbox-box svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.consent-text {
+    font-size: 13.5px;
+    line-height: 1.48;
+    color: var(--text-main);
+}
+
+.consent-text a {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.consent-text a:hover {
+    text-decoration: underline;
+}
+
+/* ACTION BUTTONS */
+.button-group {
+    width: 100%;
+    max-width: 490px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    border: none;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(38, 31, 196, 0.26);
+}
+
+.btn-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(38, 31, 196, 0.34);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+}
+
+.btn-secondary:hover {
+    background: #f8fafc;
+    border-color: rgba(100, 116, 139, 0.5);
+    transform: translateY(-1px);
+}
+
+/* ERROR MESSAGE */
+.error-banner {
+    display: none;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #b91c1c;
+    font-size: 13.5px;
+    text-align: center;
+}
+
+.error-banner.visible {
+    display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .register-card {
+        padding: 36px 26px 32px;
+    }
+
+    .card-title {
+        font-size: 26px;
+    }
+
+    .card-subtitle {
+        font-size: 14.5px;
+    }
+
+    .consent-text {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND HTML -->
+<iframe
+    src="BackgroundTemplate/background_template.html"
+    class="background-frame"
+    title="EquiWork Background">
+</iframe>
+
+<!-- REGISTER CARD -->
+<main class="register-card">
+
+    <header class="card-header">
+        <h1 class="card-title">Create your EquiWork account</h1>
+        <p class="card-subtitle">
+            Please review and accept our terms below to get started with your new account.
+        </p>
+    </header>
+
+    <form class="register-form" id="registerConfirmForm" novalidate>
+
+        <div class="error-banner" id="errorBanner">
+            Please agree to the Terms and Conditions and Privacy Policy to continue.
+        </div>
+
+        <div class="consent-list">
+            <!-- Required Terms Checkbox -->
+            <label class="checkbox-row" for="termsCheckbox">
+                <span class="checkbox-wrapper">
+                    <input type="checkbox" id="termsCheckbox" checked required>
+                    <span class="checkbox-box">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                </span>
+                <span class="consent-text">
+                    By registering, I agree to the <a href="terms.html">Terms and Conditions</a> and <a href="privacy.html">Privacy Policy</a> of EquiWork. I confirm that the information I provide is accurate and authorize EquiWork to collect and process my personal data for account creation, job matching, and platform services. I agree to receive notifications regarding job opportunities, application updates, my profile, and other services that support my job search. I can manage my notification preferences at any time.
+                </span>
+            </label>
+
+            <!-- Optional Marketing Checkbox -->
+            <label class="checkbox-row" for="marketingCheckbox">
+                <span class="checkbox-wrapper">
+                    <input type="checkbox" id="marketingCheckbox" checked>
+                    <span class="checkbox-box">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                </span>
+                <span class="consent-text">
+                    I also agree to receive career advice, platform announcements, newsletters, and other updates from EquiWork. I can unsubscribe from promotional communications at any time.
+                </span>
+            </label>
+        </div>
+
+        <div class="button-group">
+            <a href="registerEmployee.html" class="btn btn-primary">
+                Continue to Registration
+            </a>
+            <a href="signIn.html" class="btn btn-secondary">
+                Back to Sign In
+            </a>
+        </div>
+
+    </form>
+
+</main>
+
+<script>
+const form = document.getElementById("registerConfirmForm");
+const termsCheckbox = document.getElementById("termsCheckbox");
+const marketingCheckbox = document.getElementById("marketingCheckbox");
+const errorBanner = document.getElementById("errorBanner");
+
+termsCheckbox.addEventListener("change", () => {
+    if (termsCheckbox.checked) {
+        errorBanner.classList.remove("visible");
+    }
+});
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    if (!termsCheckbox.checked) {
+        errorBanner.classList.add("visible");
+        return;
+    }
+
+    errorBanner.classList.remove("visible");
+    console.log("Proceeding to account registration", {
+        termsAccepted: termsCheckbox.checked,
+        marketingOptIn: marketingCheckbox.checked
+    });
+    // Redirect to the registration form page:
+    // window.location.href = "signup.html";
+});
+</script>
+
+</body>
+</html>
