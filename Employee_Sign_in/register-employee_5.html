@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EquiWork | Tell us about your work</title>
+
+    <style>
+      :root {
+        --primary: #261fc4;
+        --primary-dark: #15117a;
+        --accent-gold: #ffd954;
+        --accent-gold-hover: #f4c830;
+        --accent-gold-ink: #b8860b;
+        --heading-color: #1f2247;
+        --text-main: #222638;
+        --text-muted: #4b5068;
+        --error-red: #b91c1c;
+        --glass-bg: rgba(255, 255, 255, 0.86);
+        --glass-border: rgba(255, 255, 255, 0.92);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 36px 16px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background: transparent;
+        color: var(--text-main);
+        overflow-x: hidden;
+      }
+
+      /* BACKGROUND */
+      .background-frame {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        z-index: -1;
+      }
+
+      /* WRAPPER */
+      .card-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 720px;
+        display: flex;
+        flex-direction: column;
+        animation: cardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes cardFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* GLASS CARD CONTAINER */
+      .register-card {
+        position: relative;
+        width: 100%;
+        padding: 38px 54px 40px;
+        display: flex;
+        flex-direction: column;
+        background: var(--glass-bg);
+        backdrop-filter: blur(36px) saturate(160%);
+        -webkit-backdrop-filter: blur(36px) saturate(160%);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        box-shadow:
+          0 24px 60px rgba(15, 20, 55, 0.22),
+          0 4px 16px rgba(15, 20, 55, 0.1),
+          inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      }
+
+      /* TITLE & ILLUSTRATION */
+      .card-header-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .question-title {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--heading-color);
+        margin-bottom: 16px;
+      }
+
+      .illustration-badge img {
+        width: 82px;
+        height: 82px;
+        object-fit: contain;
+        display: block;
+      }
+
+      /* ADD ROLE BUTTON ROW */
+      .add-role-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        width: 100%;
+        margin-bottom: 22px;
+      }
+
+      .add-role-box-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        background: var(--accent-gold);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(244, 179, 35, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .add-role-box-btn:hover {
+        background: var(--accent-gold-hover);
+        transform: translateY(-1px);
+      }
+
+      .add-role-box-btn svg {
+        width: 26px;
+        height: 26px;
+        stroke: #111827;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .add-role-label {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--heading-color);
+      }
+
+      /* DIVIDER WITH "OR" */
+      .or-divider {
+        position: relative;
+        text-align: center;
+        margin: 16px 0 22px;
+      }
+
+      .or-divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: #cbd5e1;
+      }
+
+      .or-divider span {
+        position: relative;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0 16px;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+      }
+
+      /* RESUME DROPZONE */
+      .dropzone {
+        position: relative;
+        border: 2px dashed #f4b323;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 16px;
+        padding: 24px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-bottom: 24px;
+      }
+
+      .dropzone:hover,
+      .dropzone.dragover {
+        background: rgba(254, 245, 212, 0.4);
+        border-color: var(--accent-gold-hover);
+      }
+
+      .dropzone-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .dropzone-text {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--heading-color);
+      }
+
+      .browse-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 96px;
+        height: 38px;
+        background: var(--accent-gold);
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #111827;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(244, 179, 35, 0.25);
+        transition: all 0.18s ease;
+      }
+
+      .browse-btn:hover {
+        background: var(--accent-gold-hover);
+      }
+
+      .dropzone-sub {
+        font-size: 13.5px;
+        color: var(--text-muted);
+      }
+
+      .dropzone-file-icon {
+        flex-shrink: 0;
+      }
+
+      .dropzone-file-icon img {
+        width: 56px;
+        height: 64px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .file-input-hidden {
+        display: none;
+      }
+
+      .validation-hint {
+        font-size: 12.5px;
+        font-style: italic;
+        font-weight: 500;
+        color: var(--error-red);
+        text-align: center;
+        margin-top: -14px;
+        margin-bottom: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease;
+      }
+
+      .validation-hint.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* FOOTER NAVIGATION (BACK & NEXT) */
+      .nav-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: none;
+        border: none;
+        color: #d99b16;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 8px 4px;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+      }
+
+      .btn-back:hover {
+        transform: translateX(-3px);
+        opacity: 0.85;
+      }
+
+      .btn-back svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+        stroke-width: 2.5;
+        fill: none;
+      }
+
+      .btn-next {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-width: 175px;
+        height: 48px;
+        padding: 0 26px;
+        border: none;
+        border-radius: 99px;
+        background: var(--accent-gold);
+        color: #111827;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(244, 179, 35, 0.35);
+        transition: all 0.2s ease;
+      }
+
+      .btn-next:hover {
+        background: var(--accent-gold-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(244, 179, 35, 0.45);
+      }
+
+      .btn-next:active {
+        transform: translateY(0);
+      }
+
+      .btn-next svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        stroke-width: 2.5;
+        fill: none;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .register-card {
+          padding: 30px 24px 32px;
+        }
+
+        .dropzone {
+          flex-direction: column-reverse;
+          text-align: center;
+        }
+
+        .question-title {
+          font-size: 24px;
+        }
+
+        .btn-next {
+          min-width: 145px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- BACKGROUND HTML -->
+    <iframe
+      src="background-template.html"
+      class="background-frame"
+      title="EquiWork Background"
+    ></iframe>
+
+    <!-- WRAPPER -->
+    <div class="card-wrapper">
+      <main class="register-card">
+        <!-- HEADER & DOCUMENT ICON -->
+        <div class="card-header-center">
+          <h1 class="question-title">Tell us about your work</h1>
+          <div class="illustration-badge" aria-hidden="true">
+            <img src="document.png" alt="Work details document icon" />
+          </div>
+        </div>
+
+        <!-- ADD ROLE TRIGGER -->
+        <div class="add-role-action">
+          <button
+            type="button"
+            class="add-role-box-btn"
+            id="triggerAddRole"
+            aria-label="Add role"
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+          <span class="add-role-label">Add role</span>
+        </div>
+
+        <!-- OR DIVIDER -->
+        <div class="or-divider">
+          <span>OR</span>
+        </div>
+
+        <!-- RESUME DROPZONE FORM -->
+        <form id="workForm" novalidate>
+          <div class="dropzone" id="dropzoneBox">
+            <div class="dropzone-content">
+              <span class="dropzone-text">Upload your resume here</span>
+              <button type="button" class="browse-btn" id="browseBtn">
+                Browse
+              </button>
+              <span class="dropzone-sub" id="fileNameDisplay"
+                >or drag file to upload</span
+              >
+            </div>
+            <!-- RESUME FILE ICON -->
+            <div class="dropzone-file-icon" aria-hidden="true">
+              <img src="file.png" alt="Resume file icon" />
+            </div>
+            <input
+              type="file"
+              id="resumeInput"
+              class="file-input-hidden"
+              accept=".pdf,.doc,.docx,.txt"
+            />
+          </div>
+
+          <div class="validation-hint" id="workHint" role="alert">
+            Please add a role or upload your resume to continue.
+          </div>
+
+          <!-- BOTTOM NAVIGATION -->
+          <div class="nav-footer">
+            <a href="register-employee_4.html" class="btn-back">
+              <svg
+                viewBox="0 0 24 24"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>BACK</span>
+            </a>
+
+            <button type="submit" class="btn-next">
+              <span>NEXT</span>
+              <svg
+                viewBox="0 0 24 24"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script>
+      const workForm = document.getElementById("workForm");
+      const dropzoneBox = document.getElementById("dropzoneBox");
+      const browseBtn = document.getElementById("browseBtn");
+      const resumeInput = document.getElementById("resumeInput");
+      const fileNameDisplay = document.getElementById("fileNameDisplay");
+      const triggerAddRole = document.getElementById("triggerAddRole");
+      const workHint = document.getElementById("workHint");
+
+      let uploadedFile = null;
+
+      browseBtn.addEventListener("click", () => {
+        resumeInput.click();
+      });
+
+      dropzoneBox.addEventListener("click", (e) => {
+        if (e.target.closest("button")) return;
+        resumeInput.click();
+      });
+
+      resumeInput.addEventListener("change", () => {
+        if (resumeInput.files.length > 0) {
+          uploadedFile = resumeInput.files[0];
+          fileNameDisplay.textContent = uploadedFile.name;
+          workHint.classList.remove("visible");
+        }
+      });
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropzoneBox.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzoneBox.classList.add("dragover");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropzoneBox.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzoneBox.classList.remove("dragover");
+        });
+      });
+
+      dropzoneBox.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files.length > 0) {
+          uploadedFile = e.dataTransfer.files[0];
+          resumeInput.files = e.dataTransfer.files;
+          fileNameDisplay.textContent = uploadedFile.name;
+          workHint.classList.remove("visible");
+        }
+      });
+
+      triggerAddRole.addEventListener("click", () => {
+        window.location.href = "register-employee_1.html";
+      });
+
+      workForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (!uploadedFile) {
+          workHint.classList.add("visible");
+          return;
+        }
+
+        localStorage.setItem("equiwork_resume_uploaded", uploadedFile.name);
+        window.location.href = "employer_2.html";
+      });
+    </script>
+  </body>
+</html>
