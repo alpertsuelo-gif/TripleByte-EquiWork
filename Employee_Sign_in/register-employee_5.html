@@ -656,13 +656,8 @@
 
       <!-- ADD ROLE TRIGGER & INLINE PANEL -->
       <div class="add-role-section">
-        <button
-          type="button"
-          class="add-role-trigger"
-          id="triggerAddRole"
-          aria-expanded="false"
-          aria-controls="rolePanel"
-        >
+        <button type="button" class="add-role-trigger" id="triggerAddRole" aria-expanded="false"
+          aria-controls="rolePanel">
           <span class="add-role-icon-box" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none">
               <circle cx="11" cy="11" r="7"></circle>
@@ -677,14 +672,9 @@
 
         <div class="role-panel" id="rolePanel">
           <div class="role-input-row">
-            <input
-              type="text"
-              id="workRoleInput"
-              class="role-input"
-              placeholder="e.g. Frontend Developer, Sales Associate"
-              autocomplete="off"
-              aria-label="Job role title"
-            />
+            <input type="text" id="workRoleInput" class="role-input"
+              placeholder="e.g. Carpenter, Landscaper, Barber, Nail Tech" autocomplete="off"
+              aria-label="Job role title" />
             <button type="button" class="role-add-btn" id="addWorkRoleBtn">+ Add</button>
           </div>
           <div class="role-chips" id="workRoleChips" aria-live="polite"></div>
@@ -698,13 +688,8 @@
 
       <!-- RESUME DROPZONE FORM -->
       <form id="workForm" novalidate>
-        <div
-          class="dropzone"
-          id="dropzoneBox"
-          role="button"
-          tabindex="0"
-          aria-label="Upload your resume. Supported formats: PDF, DOC, DOCX, TXT up to 5 MB."
-        >
+        <div class="dropzone" id="dropzoneBox" role="button" tabindex="0"
+          aria-label="Upload your resume. Supported formats: PDF, DOC, DOCX, TXT up to 5 MB.">
           <div class="dropzone-content">
             <span class="dropzone-text">Upload your resume here</span>
             <div class="dropzone-actions">
@@ -718,7 +703,8 @@
             <div class="file-pill" id="filePill">
               <span class="file-pill-name" id="fileNameDisplay"></span>
               <span class="file-pill-size" id="fileSizeDisplay"></span>
-              <button type="button" class="file-remove-btn" id="removeFileBtn" aria-label="Remove uploaded file">×</button>
+              <button type="button" class="file-remove-btn" id="removeFileBtn"
+                aria-label="Remove uploaded file">×</button>
             </div>
           </div>
 
