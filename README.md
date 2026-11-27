@@ -10,23 +10,6 @@ EquiWork focuses on improving the recruitment process through skill-based job ma
 
 ---
 
-## Table of Contents
-
-1. [Problem Being Addressed](#1-problem-being-addressed)
-2. [Project Objectives](#2-project-objectives)
-3. [Target Users](#3-target-users)
-4. [Main Features](#4-main-features)
-5. [Technologies Used](#5-technologies-used)
-6. [Team Members and Roles](#6-team-members-and-roles)
-7. [OOP Concepts Demonstrated](#7-oop-concepts-demonstrated)
-8. [Instructions for Running the Program](#8-instructions-for-running-the-program)
-9. [Sample Screenshots](#9-sample-screenshots)
-10. [Known Limitations](#10-known-limitations)
-11. [Future Improvements](#11-future-improvements)
-12. [Project Contributors and Acknowledgments](#12-project-contributors-and-acknowledgments)
-
----
-
 ## 1. Problem Being Addressed
 
 In the Philippines, informal and micro-job opportunities such as household errands, minor repairs, tutoring, cleaning, and other short-term services are commonly advertised through personal referrals, word-of-mouth communication, Facebook groups, and other informal networks.
