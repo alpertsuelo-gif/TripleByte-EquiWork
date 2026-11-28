@@ -1,0 +1,2434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EquiWork | Find Odd Jobs & Local Work</title>
+
+<style>
+:root {
+    --primary: #261fc4;
+    --primary-dark: #15117a;
+    --primary-glow: rgba(38, 31, 196, 0.25);
+    --success: #059669;
+    --danger: #dc2626;
+    --danger-soft: rgba(220, 38, 38, 0.1);
+    --warning: #d97706;
+    --heading-color: #1f2247;
+    --text-main: #222638;
+    --text-muted: #5a6078;
+    --glass-bg: rgba(255, 255, 255, 0.78);
+    --glass-card: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(255, 255, 255, 0.92);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: transparent;
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* SHARED BACKGROUND IFRAME */
+.background-frame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -1;
+}
+
+/* MAIN APP CONTAINER */
+.app-shell {
+    max-width: 1360px;
+    margin: 22px auto;
+    padding: 0 20px 40px;
+}
+
+/* TOP NAVBAR + SEARCH BAR SHELL */
+.top-glass-header {
+    position: relative;
+    z-index: 40;
+    background: var(--glass-bg);
+    backdrop-filter: blur(32px) saturate(160%);
+    -webkit-backdrop-filter: blur(32px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(15, 20, 55, 0.14);
+    margin-bottom: 24px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 28px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 18px 18px 0 0;
+}
+
+.brand-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+/* LOGO */
+.brand-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.brand-area:hover .brand-logo {
+    transform: scale(1.03);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 8px 4px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: all 0.2s ease;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.nav-link.active {
+    border-bottom-color: var(--primary);
+}
+
+.nav-badge {
+    background: rgba(38, 31, 196, 0.12);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+}
+
+.nav-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.lang-pill {
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    font-size: 12.5px;
+    color: var(--heading-color);
+}
+
+.action-anchor {
+    position: relative;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--heading-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover,
+.icon-btn.active {
+    background: #ffffff;
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 6px 16px rgba(38, 31, 196, 0.14);
+}
+
+/* =========================================================
+   NOTIFICATIONS SIDE-DROP POPOVER
+   ========================================================= */
+@keyframes popoverDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.nav-popover {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(36px) saturate(180%);
+    -webkit-backdrop-filter: blur(36px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.98);
+    border-radius: 16px;
+    box-shadow:
+        0 22px 50px rgba(15, 20, 55, 0.22),
+        0 4px 14px rgba(15, 20, 55, 0.08);
+    z-index: 999;
+    display: none;
+    overflow: hidden;
+    animation: popoverDrop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-popover.open {
+    display: block;
+}
+
+.notif-popover {
+    width: 310px;
+}
+
+.popover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.popover-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+.popover-sub-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.18);
+    color: var(--text-muted);
+}
+
+.notif-empty-body {
+    padding: 32px 22px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.notif-empty-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(38, 31, 196, 0.08);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notif-empty-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+.notif-empty-desc {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--text-muted);
+}
+
+/* IMAGE ICON LINKS FOR PLACEHOLDER PAGES */
+.icon-link {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.icon-link:hover {
+    background: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 6px 16px rgba(38, 31, 196, 0.14);
+    transform: translateY(-1px);
+}
+
+.icon-link.danger:hover {
+    border-color: var(--danger);
+    background: #fef2f2;
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.14);
+}
+
+.nav-icon-img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    display: block;
+}
+
+/* MULTI-FIELD SEARCH BAR */
+.search-bar-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 144px;
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 0 0 18px 18px;
+    overflow: hidden;
+}
+
+.search-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-right: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.search-cell svg,
+.peso-prefix {
+    color: var(--primary);
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.search-cell input,
+.search-cell select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--text-main);
+    outline: none;
+}
+
+.search-cell input::placeholder {
+    color: #7c8299;
+}
+
+.search-submit-btn {
+    border: none;
+    background: linear-gradient(105deg, var(--primary), var(--primary-dark));
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.search-submit-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* WORKSPACE BODY: SIDEBAR + RESULTS */
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 275px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* LEFT SIDEBAR: JOB SEARCH SETTINGS */
+.filter-sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(32px) saturate(160%);
+    -webkit-backdrop-filter: blur(32px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 24px 22px;
+    box-shadow: 0 18px 45px rgba(15, 20, 55, 0.12);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 14px;
+}
+
+.back-link:hover {
+    color: var(--primary);
+}
+
+.sidebar-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.filter-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-chevron {
+    transition: transform 0.2s ease;
+    font-size: 12px;
+}
+
+.filter-group.collapsed .filter-chevron {
+    transform: rotate(180deg);
+}
+
+.filter-group.collapsed .filter-body {
+    display: none;
+}
+
+.filter-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 9px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    background: rgba(255, 255, 255, 0.78);
+    font-size: 13px;
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.filter-input:focus {
+    background: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(38, 31, 196, 0.12);
+}
+
+.checkbox-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-main);
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-check input {
+    accent-color: var(--primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* RIGHT AREA: TOOLBAR + QUICK CHIPS + JOB CARDS */
+.results-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.results-count {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 6px rgba(15, 20, 55, 0.45);
+}
+
+.view-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pill-control {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    padding: 7px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--heading-color);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.18s ease;
+}
+
+.pill-control:hover {
+    background: #ffffff;
+    border-color: var(--primary);
+}
+
+/* QUICK FILTER CHIPS */
+.quick-chips-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 0 4px;
+}
+
+.quick-chip {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--heading-color);
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.quick-chip:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+}
+
+.quick-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* 3-COLUMN BOARD GRID & LIST VIEW */
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-top: 8px;
+}
+
+.jobs-grid.list-view {
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.jobs-grid.list-view .job-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 24px;
+}
+
+.jobs-grid.list-view .card-main-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.jobs-grid.list-view .card-top-row {
+    margin-bottom: 0;
+}
+
+.jobs-grid.list-view .job-card-company,
+.jobs-grid.list-view .schedule-tag {
+    margin-bottom: 0;
+}
+
+.jobs-grid.list-view .card-bottom-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.jobs-grid.list-view .job-meta-row {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.jobs-grid.list-view .card-actions-row {
+    width: 250px;
+}
+
+@keyframes cardFadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.job-card {
+    position: relative;
+    background: var(--glass-card);
+    backdrop-filter: blur(32px) saturate(165%);
+    -webkit-backdrop-filter: blur(32px) saturate(165%);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 14px 35px rgba(15, 20, 55, 0.12);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    animation: cardFadeUp 0.28s ease both;
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 45px rgba(15, 20, 55, 0.2);
+}
+
+/* FEATURED INDIGO "TOP PICK" CARD */
+.job-card.featured {
+    background: linear-gradient(145deg, #2d26d6, #18138c);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    box-shadow: 0 22px 50px rgba(24, 19, 140, 0.38);
+}
+
+.top-pick-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    color: var(--heading-color);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 4px 12px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(15, 20, 55, 0.18);
+    white-space: nowrap;
+}
+
+.card-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.company-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 15px;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.badge-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.role-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.badge-amber { background: #fef3c7; color: #b45309; }
+.badge-green { background: #dcfce7; color: #15803d; }
+.badge-blue  { background: #e0f2fe; color: #0369a1; }
+.badge-pink  { background: #fce7f3; color: #be185d; }
+.badge-glass { background: rgba(255, 255, 255, 0.18); color: #ffffff; }
+
+.status-chip {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+}
+
+.status-not-started {
+    background: #e0e7ff;
+    color: #1e40af;
+}
+
+.status-in-progress {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.job-card.featured .status-not-started {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+}
+
+.job-card-title {
+    font-size: 16.5px;
+    font-weight: 700;
+    line-height: 1.32;
+    margin-bottom: 4px;
+}
+
+.job-card-company {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.job-card.featured .job-card-company {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.schedule-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--heading-color);
+    background: rgba(38, 31, 196, 0.08);
+    padding: 4px 9px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.job-card.featured .schedule-tag {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.job-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.job-card.featured .job-meta-row {
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+}
+
+.job-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.peso-rate {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.job-card.featured .peso-rate {
+    color: #fde68a;
+}
+
+.card-actions-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 1fr;
+    gap: 8px;
+}
+
+.bookmark-btn {
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--heading-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.bookmark-btn.saved {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+.job-card.featured .bookmark-btn {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+}
+
+.job-card.featured .bookmark-btn.saved {
+    background: #ffffff;
+    color: var(--primary);
+}
+
+.card-mini-btn {
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--heading-color);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.card-mini-btn:hover {
+    background: #ffffff;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.card-mini-btn.primary {
+    background: linear-gradient(95deg, var(--primary), var(--primary-dark));
+    border: none;
+    color: #ffffff;
+}
+
+.card-mini-btn.applied {
+    background: var(--success);
+    border: none;
+    color: #ffffff;
+}
+
+.card-mini-btn.cancel-btn {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: var(--danger);
+}
+
+.card-mini-btn.cancel-btn:hover {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: #ffffff;
+}
+
+.job-card.featured .card-mini-btn {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.job-card.featured .card-mini-btn.primary {
+    background: #ffffff;
+    color: var(--primary-dark);
+}
+
+.job-card.featured .card-mini-btn.applied {
+    background: #10b981;
+    color: #ffffff;
+}
+
+/* SKELETON LOADING CARDS */
+.skeleton-card {
+    height: 235px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    animation: pulseGlass 1.4s infinite ease-in-out;
+}
+
+@keyframes pulseGlass {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.9; }
+}
+
+/* =========================================================
+   GLASSMORPHIC FLOATING SLIDE-OVER JOB DRAWER
+   ========================================================= */
+.drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 20, 45, 0.22);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.28s ease;
+}
+
+.drawer-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.job-drawer {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    bottom: 18px;
+    width: calc(100% - 36px);
+    max-width: 500px;
+
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: blur(42px) saturate(185%);
+    -webkit-backdrop-filter: blur(42px) saturate(185%);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 22px;
+
+    box-shadow:
+        0 24px 60px rgba(15, 20, 55, 0.24),
+        0 4px 16px rgba(15, 20, 55, 0.08),
+        inset 0 1px 1px rgba(255, 255, 255, 0.9);
+
+    z-index: 101;
+    transform: translateX(calc(100% + 36px));
+    transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.job-drawer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.32) 0%,
+        rgba(255, 255, 255, 0.06) 45%,
+        transparent 60%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.job-drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-banner {
+    position: relative;
+    height: 112px;
+    width: 100%;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+    z-index: 1;
+}
+
+.drawer-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #14172b;
+    font-size: 19px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.drawer-close-btn:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: rotate(90deg);
+}
+
+.drawer-avatar-row {
+    position: relative;
+    z-index: 2;
+    padding: 0 28px;
+    margin-top: -36px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.drawer-circle-badge {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    border: 2px solid #ffffff;
+    box-shadow: 0 8px 22px rgba(15, 20, 55, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--heading-color);
+    letter-spacing: 0.02em;
+}
+
+.drawer-view-all {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--primary);
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.drawer-view-all:hover {
+    background: #ffffff;
+}
+
+.drawer-scroll-body {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 28px 24px;
+}
+
+.drawer-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #14172b;
+    line-height: 1.26;
+    margin-bottom: 4px;
+}
+
+.drawer-company-sub {
+    font-size: 14px;
+    font-weight: 500;
+    color: #383e56;
+    margin-bottom: 18px;
+}
+
+.drawer-kv-grid {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    row-gap: 10px;
+    column-gap: 12px;
+    font-size: 13.5px;
+    margin-bottom: 20px;
+}
+
+.kv-label {
+    color: #4b516b;
+    font-weight: 500;
+}
+
+.kv-value {
+    color: #14172b;
+    font-weight: 600;
+}
+
+.drawer-glass-box {
+    background: rgba(255, 255, 255, 0.56);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.75);
+    margin-bottom: 14px;
+}
+
+.drawer-description {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #1e2235;
+    margin-bottom: 14px;
+}
+
+.drawer-highlights-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+}
+
+.drawer-highlights {
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.48;
+    color: #24293e;
+}
+
+/* INLINE COMPOSERS (APPLY & CANCEL) IN DRAWER */
+.inline-composer {
+    display: none;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(38, 31, 196, 0.25);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 12px;
+}
+
+.inline-composer.danger-box {
+    border-color: rgba(220, 38, 38, 0.35);
+    background: rgba(254, 242, 242, 0.86);
+}
+
+.inline-composer.open {
+    display: block;
+}
+
+.inline-composer textarea,
+.inline-composer select {
+    width: 100%;
+    border-radius: 9px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    background: rgba(255, 255, 255, 0.94);
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    margin: 8px 0 10px;
+}
+
+.inline-composer textarea {
+    height: 72px;
+    resize: none;
+}
+
+.inline-composer textarea:focus,
+.inline-composer select:focus {
+    border-color: var(--primary);
+}
+
+.drawer-footer {
+    position: relative;
+    z-index: 2;
+    padding: 14px 24px;
+    background: rgba(255, 255, 255, 0.46);
+    border-top: 1px solid rgba(255, 255, 255, 0.72);
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 12px;
+}
+
+.drawer-pill-btn {
+    height: 42px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.drawer-pill-secondary {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    color: #14172b;
+    box-shadow: 0 4px 12px rgba(15, 20, 55, 0.06);
+}
+
+.drawer-pill-secondary:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+}
+
+.drawer-pill-primary {
+    border: none;
+    background: linear-gradient(95deg, var(--primary), var(--primary-dark));
+    color: #ffffff;
+    box-shadow: 0 6px 18px var(--primary-glow);
+}
+
+.drawer-pill-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.drawer-pill-primary.applied {
+    background: var(--success);
+    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.28);
+}
+
+.drawer-pill-danger {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: var(--danger);
+}
+
+.drawer-pill-danger:hover {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: #ffffff;
+}
+
+/* GLASS TOAST NOTIFICATION */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.glass-toast {
+    background: rgba(20, 23, 43, 0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: 0 14px 32px rgba(15, 20, 55, 0.28);
+    animation: toastSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .jobs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .search-bar-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    .search-submit-btn {
+        grid-column: span 2;
+        height: 46px;
+    }
+}
+
+@media (max-width: 780px) {
+    .brand-logo {
+        height: 42px;
+    }
+    .workspace-grid {
+        grid-template-columns: 1fr;
+    }
+    .jobs-grid {
+        grid-template-columns: 1fr;
+    }
+    .jobs-grid.list-view .job-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .jobs-grid.list-view .card-actions-row {
+        width: 100%;
+    }
+    .nav-links {
+        display: none;
+    }
+    .notif-popover {
+        right: -50px;
+        width: 290px;
+    }
+    .job-drawer {
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        width: calc(100% - 20px);
+    }
+    .drawer-scroll-body {
+        padding: 0 20px 20px;
+    }
+    .drawer-avatar-row {
+        padding: 0 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SHARED BACKGROUND -->
+<iframe
+    src="BackgroundTemplate/background_template.html"
+    class="background-frame"
+    title="EquiWork Background">
+</iframe>
+
+<div class="app-shell">
+
+    <!-- TOP NAVBAR & SEARCH BAR -->
+    <header class="top-glass-header">
+        <nav class="navbar">
+            <a href="signIn.html" class="brand-area">
+                <img src="assets/EquiWork-Logo.png" alt="EquiWork" class="brand-logo">
+            </a>
+
+            <div class="nav-links" id="navTabs">
+                <button type="button" class="nav-link active" data-tab="all">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Find Odd Jobs
+                </button>
+                <button type="button" class="nav-link" data-tab="applied">
+                    My Applications <span class="nav-badge" id="appliedBadge">0</span>
+                </button>
+                <button type="button" class="nav-link" data-tab="saved">
+                    Saved Jobs <span class="nav-badge" id="savedBadge">0</span>
+                </button>
+            </div>
+
+            <div class="nav-actions">
+                <span class="lang-pill">Eng</span>
+
+                <!-- NOTIFICATIONS BELL + SIDE-DROP -->
+                <div class="action-anchor" id="notifAnchor">
+                    <button type="button" class="icon-btn" id="notifToggleBtn" title="Notifications" aria-label="Notifications" aria-expanded="false">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    </button>
+
+                    <div class="nav-popover notif-popover" id="notifPopover" role="region" aria-label="Notifications">
+                        <div class="popover-header">
+                            <span class="popover-title">Notifications</span>
+                            <span class="popover-sub-pill">0 new</span>
+                        </div>
+                        <div class="notif-empty-body">
+                            <div class="notif-empty-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                            </div>
+                            <div class="notif-empty-title">No notifications</div>
+                            <p class="notif-empty-desc">You have no notifications right now. Job alerts and shift updates will appear here.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WORKER PROFILE PAGE PLACEHOLDER LINK -->
+                <a href="employeeProfile.html" class="icon-link" title="Profile" aria-label="Profile">
+                    <img
+                        src="assets/profile-icon.png"
+                        alt="Profile"
+                        class="nav-icon-img"
+                        onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2218%22 height=%2218%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%231f2247%22 stroke-width=%222%22><path d=%22M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2%22/><circle cx=%2212%22 cy=%227%22 r=%224%22/></svg>';">
+                </a>
+
+                <!-- SETTINGS PAGE PLACEHOLDER LINK -->
+                <a href="employeeSettings.html" class="icon-link" title="Settings" aria-label="Settings">
+                    <img
+                        src="assets/settings-icon.png"
+                        alt="Settings"
+                        class="nav-icon-img"
+                        onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2218%22 height=%2218%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%231f2247%22 stroke-width=%222%22><circle cx=%2212%22 cy=%2212%22 r=%223%22/><path d=%22M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z%22/></svg>';">
+                </a>
+
+                <!-- SIGN OUT LINK -->
+                <a href="signIn.html" class="icon-link danger" title="Sign Out" aria-label="Sign Out">
+                    <img
+                        src="assets/signout-icon.png"
+                        alt="Sign Out"
+                        class="nav-icon-img"
+                        onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2218%22 height=%2218%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23dc2626%22 stroke-width=%222%22><path d=%22M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4%22/><polyline points=%2216 17 21 12 16 7%22/><line x1=%2221%22 y1=%2212%22 x2=%229%22 y2=%2212%22/></svg>';">
+                </a>
+            </div>
+        </nav>
+
+        <div class="search-bar-row">
+            <div class="search-cell">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="topKeywordInput" placeholder="Search odd jobs (e.g. Laundry, Carpenter, Driver)">
+            </div>
+            <div class="search-cell">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <input type="text" id="topLocationInput" placeholder="Location (e.g. Batangas City, Santa Rosa)">
+            </div>
+            <div class="search-cell">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <select id="topTypeSelect">
+                    <option value="">All Work Types</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="On-call / Day Rate">On-call / Day Rate</option>
+                    <option value="Contract">Contract</option>
+                </select>
+            </div>
+            <div class="search-cell">
+                <span class="peso-prefix">₱</span>
+                <input type="text" id="topSalaryInput" inputmode="numeric" placeholder="Min Pay (e.g. 500)">
+            </div>
+            <button type="button" class="search-submit-btn" id="searchBtn">Search</button>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="workspace-grid">
+
+        <!-- LEFT FILTER SIDEBAR -->
+        <aside class="filter-sidebar">
+            <a href="signIn.html" class="back-link">← Back</a>
+            <h2 class="sidebar-heading">Job Search Settings</h2>
+
+            <div class="filter-group">
+                <div class="filter-label"><span>Odd Job / Skill</span><span class="filter-chevron">▲</span></div>
+                <div class="filter-body">
+                    <input type="text" id="sideTitleInput" class="filter-input" placeholder="Laundry, Gardening, Carpenter...">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-label"><span>Categories</span><span class="filter-chevron">▲</span></div>
+                <div class="filter-body">
+                    <select id="sideCategorySelect" class="filter-input">
+                        <option value="">Any Category</option>
+                        <option value="Household & Care">Household & Care</option>
+                        <option value="Construction & Trades">Construction & Trades</option>
+                        <option value="Driving & Delivery">Driving & Delivery</option>
+                        <option value="Repair & Maintenance">Repair & Maintenance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-label"><span>Location</span><span class="filter-chevron">▲</span></div>
+                <div class="filter-body">
+                    <input type="text" id="sideLocationInput" class="filter-input" placeholder="City or Municipality">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-label"><span>Type of employment</span><span class="filter-chevron">▲</span></div>
+                <div class="filter-body">
+                    <div class="checkbox-stack" id="employmentCheckboxes">
+                        <label class="filter-check"><input type="checkbox" value="Part-time"> Part-time</label>
+                        <label class="filter-check"><input type="checkbox" value="Full-time"> Full-time</label>
+                        <label class="filter-check"><input type="checkbox" value="On-call / Day Rate"> On-call / Day Rate</label>
+                        <label class="filter-check"><input type="checkbox" value="Contract"> Contract</label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT JOB CARDS SECTION -->
+        <section>
+            <div class="results-toolbar">
+                <div class="results-count" id="resultsCount">Loading available odd jobs...</div>
+                <div class="view-controls">
+                    <button type="button" class="pill-control" id="resetFiltersBtn">Reset Filters</button>
+                    <select class="pill-control" id="sortSelect" aria-label="Sort job offers">
+                        <option value="recommended">Sort: Recommended</option>
+                        <option value="salary_desc">Sort: Highest Pay (₱)</option>
+                        <option value="recent">Sort: Most Recent</option>
+                    </select>
+                    <button type="button" class="pill-control" id="viewToggleBtn">Board View ▾</button>
+                </div>
+            </div>
+
+            <!-- QUICK FILTER CHIPS -->
+            <div class="quick-chips-row" id="quickChipsRow">
+                <button type="button" class="quick-chip active" data-chip="all">All Odd Jobs</button>
+                <button type="button" class="quick-chip" data-chip="tomorrow">Starts Tomorrow</button>
+                <button type="button" class="quick-chip" data-chip="highpay">₱600+ / day</button>
+                <button type="button" class="quick-chip" data-chip="batangas">Batangas</button>
+                <button type="button" class="quick-chip" data-chip="laguna">Laguna</button>
+            </div>
+
+            <div class="jobs-grid" id="jobsGrid">
+                <!-- Cards rendered dynamically via EquiWorkApi -->
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- GLASSMORPHIC SLIDE-OVER JOB OFFER DRAWER -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+<aside class="job-drawer" id="jobDrawer" aria-hidden="true">
+    <!-- Populated dynamically when a job card is clicked -->
+</aside>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/**
+ * ============================================================================
+ * EQUIWORK SPRING BOOT API CONFIGURATION & SERVICE LAYER
+ * ============================================================================
+ */
+const API_CONFIG = {
+    USE_MOCK_DATA: true,
+    BASE_URL: window.EQUIWORK_API_BASE || "http://localhost:8080/api/v1",
+    ENDPOINTS: {
+        JOBS: "/jobs",
+        JOB_BY_ID: (id) => `/jobs/${id}`,
+        APPLY_JOB: (id) => `/jobs/${id}/apply`,
+        CANCEL_JOB: (id) => `/jobs/${id}/apply`,
+        TOGGLE_SAVE: (id) => `/jobs/${id}/bookmark`,
+        NOTIFICATIONS: "/notifications"
+    }
+};
+
+/* Odd-job dataset aligned with EquiWork Employer Postings (in Philippine Pesos ₱) */
+const SEED_JOBS_DTO = [
+    {
+        id: 1,
+        featured: false,
+        companyInitials: "EH",
+        avatarGradient: "linear-gradient(135deg, #2563eb, #1d4ed8)",
+        bannerGradient: "linear-gradient(125deg, rgba(235, 179, 52, 0.52), rgba(37, 99, 235, 0.48))",
+        title: "Laundry",
+        companyName: "EquiWork HR • Verified Employer",
+        category: "Household & Care",
+        location: "Batangas City",
+        employmentType: "Part-time",
+        rateAmount: 500,
+        rateUnit: "day",
+        currency: "₱",
+        startSchedule: "Tomorrow, 8:00 AM",
+        startsTomorrow: true,
+        applicantsCount: 2,
+        postedDaysAgo: 0,
+        postedLabel: "Posted just now",
+        description: "Looking for a reliable household helper to handle weekly washing, drying, and folding of clothes and linens. Detergents and washing machine provided on-site.",
+        highlights: [
+            "Same-day cash or GCash payout at ₱500 / day",
+            "Free lunch and afternoon merienda included",
+            "Flexible morning schedule (8:00 AM – 3:00 PM)"
+        ]
+    },
+    {
+        id: 2,
+        featured: true,
+        companyInitials: "EH",
+        avatarGradient: "linear-gradient(135deg, #0ea5e9, #0284c7)",
+        bannerGradient: "linear-gradient(125deg, rgba(235, 179, 52, 0.55), rgba(53, 47, 209, 0.52))",
+        title: "Carpenter",
+        companyName: "EquiWork HR • Verified Employer",
+        category: "Construction & Trades",
+        location: "Malvar, Batangas",
+        employmentType: "Full-time",
+        rateAmount: 18000,
+        rateUnit: "month",
+        currency: "₱",
+        startSchedule: "Dec 1, 2026 • 7:30 AM",
+        startsTomorrow: false,
+        applicantsCount: 4,
+        postedDaysAgo: 1,
+        postedLabel: "1 day ago",
+        description: "Experienced carpenter needed for residential cabinet making, door installations, and light wood framing projects around Malvar and nearby Batangas towns.",
+        highlights: [
+            "Steady monthly compensation of ₱18,000 / month",
+            "Additional tool allowance if bringing your own power tools",
+            "Immediate start for qualified applicants"
+        ]
+    },
+    {
+        id: 3,
+        featured: false,
+        companyInitials: "EH",
+        avatarGradient: "linear-gradient(135deg, #10b981, #059669)",
+        bannerGradient: "linear-gradient(125deg, rgba(235, 179, 52, 0.48), rgba(16, 185, 129, 0.48))",
+        title: "Gardening",
+        companyName: "EquiWork HR • Verified Employer",
+        category: "Construction & Trades",
+        location: "Batangas City",
+        employmentType: "Part-time",
+        rateAmount: 500,
+        rateUnit: "day",
+        currency: "₱",
+        startSchedule: "Tomorrow, 7:00 AM",
+        startsTomorrow: true,
+        applicantsCount: 2,
+        postedDaysAgo: 0,
+        postedLabel: "Posted just now",
+        applicationStatus: "NOT_STARTED",
+        description: "Yard cleanup, grass trimming, pruning ornamental plants, and basic garden upkeep for a residential property in Batangas City.",
+        highlights: [
+            "₱500 / day paid immediately after shift",
+            "All gardening shears, rake, and trimmer tools provided",
+            "Option for recurring bi-weekly maintenance schedule"
+        ]
+    },
+    {
+        id: 4,
+        featured: false,
+        companyInitials: "SR",
+        avatarGradient: "linear-gradient(135deg, #f59e0b, #d97706)",
+        bannerGradient: "linear-gradient(125deg, rgba(245, 158, 11, 0.52), rgba(49, 46, 129, 0.48))",
+        title: "Delivery & Family Driver",
+        companyName: "Santa Rosa Local Logistics",
+        category: "Driving & Delivery",
+        location: "Santa Rosa, Laguna",
+        employmentType: "Full-time",
+        rateAmount: 750,
+        rateUnit: "day",
+        currency: "₱",
+        startSchedule: "Nov 30, 2026 • 6:30 AM",
+        startsTomorrow: false,
+        applicantsCount: 5,
+        postedDaysAgo: 2,
+        postedLabel: "2 days ago",
+        description: "Responsible driver with valid Professional Driver's License (Restriction 1, 2) for local grocery deliveries and school/errand runs within Santa Rosa and Biñan.",
+        highlights: [
+            "₱750 / day base pay plus overtime allowance",
+            "Company-maintained L300 van and fuel card provided",
+            "Weekly payout every Saturday"
+        ]
+    },
+    {
+        id: 5,
+        featured: false,
+        companyInitials: "LP",
+        avatarGradient: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+        bannerGradient: "linear-gradient(125deg, rgba(235, 179, 52, 0.52), rgba(79, 70, 229, 0.5))",
+        title: "Plumbing & Electrical Handyman",
+        companyName: "Lipa Home Maintenance",
+        category: "Repair & Maintenance",
+        location: "Lipa City, Batangas",
+        employmentType: "On-call / Day Rate",
+        rateAmount: 800,
+        rateUnit: "day",
+        currency: "₱",
+        startSchedule: "Tomorrow, 9:00 AM",
+        startsTomorrow: true,
+        applicantsCount: 1,
+        postedDaysAgo: 3,
+        postedLabel: "3 days ago",
+        description: "Troubleshoot leaky faucets, clogged drains, faulty light switches, and outlet replacements for apartment units in Lipa City.",
+        highlights: [
+            "₱800 / day per call-out with materials reimbursed",
+            "Flexible on-call schedule — accept jobs when available",
+            "Bonus incentive for same-day emergency repairs"
+        ]
+    },
+    {
+        id: 6,
+        featured: false,
+        companyInitials: "CB",
+        avatarGradient: "linear-gradient(135deg, #ec4899, #db2777)",
+        bannerGradient: "linear-gradient(125deg, rgba(235, 179, 52, 0.48), rgba(219, 39, 119, 0.46))",
+        title: "Deep House Cleaning & Errands",
+        companyName: "Calamba Household Services",
+        category: "Household & Care",
+        location: "Calamba, Laguna",
+        employmentType: "Part-time",
+        rateAmount: 550,
+        rateUnit: "day",
+        currency: "₱",
+        startSchedule: "Started Today • 8:00 AM",
+        startsTomorrow: false,
+        applicantsCount: 3,
+        postedDaysAgo: 1,
+        postedLabel: "1 day ago",
+        applicationStatus: "IN_PROGRESS",
+        description: "General home tidying, kitchen and bathroom sanitizing, and light market errands for a small family residence near Nuvali/Calamba.",
+        highlights: [
+            "₱550 / day with free meals and transport allowance",
+            "Safe, friendly residential subdivision environment",
+            "2 to 3 days a week regular schedule"
+        ]
+    }
+];
+
+class EquiWorkApi {
+    static getHeaders() {
+        const headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        };
+        const jwt = localStorage.getItem("equiwork_jwt");
+        if (jwt) {
+            headers["Authorization"] = `Bearer ${jwt}`;
+        }
+        const xsrfMatch = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/);
+        if (xsrfMatch) {
+            headers["X-XSRF-TOKEN"] = decodeURIComponent(xsrfMatch[1]);
+        }
+        return headers;
+    }
+
+    static normalizeJobDTO(dto) {
+        const typeBadgeMap = {
+            "Part-time": "badge-amber",
+            "Full-time": "badge-green",
+            "On-call / Day Rate": "badge-blue",
+            "Contract": "badge-pink"
+        };
+        const currency = dto.currency || "₱";
+        const rateAmount = Number(dto.rateAmount ?? dto.salaryMin ?? 0);
+        const rateUnit = dto.rateUnit || "day";
+        const formattedPay = dto.salaryFormatted || `${currency}${rateAmount.toLocaleString()} / ${rateUnit}`;
+
+        const monthlyEquivalent = rateUnit === "day" ? rateAmount * 22 : rateAmount;
+        const company = dto.companyName || dto.company || "Verified Employer";
+        const initials = dto.companyInitials || company.split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+
+        return {
+            id: dto.id,
+            featured: Boolean(dto.featured),
+            initials,
+            avatarBg: dto.avatarGradient || "linear-gradient(135deg, #261fc4, #15117a)",
+            bannerGradient: dto.bannerGradient || "linear-gradient(125deg, rgba(235, 179, 52, 0.52), rgba(53, 47, 209, 0.48))",
+            badgeText: dto.employmentType || "Part-time",
+            badgeClass: dto.featured ? "badge-glass" : (typeBadgeMap[dto.employmentType] || "badge-blue"),
+            title: dto.title,
+            company,
+            category: dto.category || "Household & Care",
+            location: dto.location || "Batangas City",
+            employmentType: dto.employmentType || "Part-time",
+            rateAmount,
+            rateUnit,
+            monthlyEquivalent,
+            payDisplay: formattedPay,
+            startSchedule: dto.startSchedule || "Tomorrow, 8:00 AM",
+            startsTomorrow: Boolean(dto.startsTomorrow),
+            applicantsCount: dto.applicantsCount ?? 0,
+            postedDaysAgo: dto.postedDaysAgo ?? 0,
+            posted: dto.postedLabel || (dto.postedDaysAgo === 0 ? "Posted just now" : `${dto.postedDaysAgo} days ago`),
+            description: dto.description || "",
+            highlights: Array.isArray(dto.highlights) ? dto.highlights : [],
+            saved: Boolean(dto.saved),
+            applicationStatus: dto.applicationStatus || null
+        };
+    }
+
+    static async fetchJobs(filters = {}) {
+        if (!API_CONFIG.USE_MOCK_DATA) {
+            const params = new URLSearchParams();
+            if (filters.keyword) params.set("keyword", filters.keyword);
+            if (filters.location) params.set("location", filters.location);
+            if (filters.category) params.set("category", filters.category);
+            if (filters.minPay) params.set("minPay", filters.minPay);
+            if (filters.employmentTypes?.length) params.set("types", filters.employmentTypes.join(","));
+            if (filters.sort) params.set("sort", filters.sort);
+
+            const res = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.JOBS}?${params.toString()}`, {
+                method: "GET",
+                headers: this.getHeaders(),
+                credentials: "include"
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            const items = Array.isArray(data) ? data : (data.content || []);
+            return items.map(this.normalizeJobDTO);
+        }
+
+        await new Promise(r => setTimeout(r, 100));
+        let results = SEED_JOBS_DTO.map(this.normalizeJobDTO);
+
+        if (filters.keyword) {
+            const q = filters.keyword.toLowerCase();
+            results = results.filter(j =>
+                j.title.toLowerCase().includes(q) ||
+                j.category.toLowerCase().includes(q) ||
+                j.company.toLowerCase().includes(q)
+            );
+        }
+        if (filters.location) {
+            const loc = filters.location.toLowerCase();
+            results = results.filter(j => j.location.toLowerCase().includes(loc));
+        }
+        if (filters.category) {
+            results = results.filter(j => j.category === filters.category);
+        }
+        if (filters.employmentTypes?.length) {
+            results = results.filter(j => filters.employmentTypes.includes(j.employmentType));
+        }
+        if (filters.minPay > 0) {
+            results = results.filter(j => j.rateAmount >= filters.minPay || j.monthlyEquivalent >= filters.minPay);
+        }
+        if (filters.quickChip === "tomorrow") {
+            results = results.filter(j => j.startsTomorrow);
+        } else if (filters.quickChip === "highpay") {
+            results = results.filter(j => (j.rateUnit === "day" && j.rateAmount >= 600) || j.monthlyEquivalent >= 15000);
+        } else if (filters.quickChip === "batangas") {
+            results = results.filter(j => j.location.toLowerCase().includes("batangas"));
+        } else if (filters.quickChip === "laguna") {
+            results = results.filter(j => j.location.toLowerCase().includes("laguna"));
+        }
+
+        if (filters.sort === "salary_desc") {
+            results.sort((a, b) => b.monthlyEquivalent - a.monthlyEquivalent);
+        } else if (filters.sort === "recent") {
+            results.sort((a, b) => a.postedDaysAgo - b.postedDaysAgo);
+        }
+
+        return results;
+    }
+
+    static async toggleBookmark(jobId, currentlySaved) {
+        if (!API_CONFIG.USE_MOCK_DATA) {
+            const res = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TOGGLE_SAVE(jobId)}`, {
+                method: currentlySaved ? "DELETE" : "POST",
+                headers: this.getHeaders(),
+                credentials: "include"
+            });
+            if (!res.ok) throw new Error(`Bookmark failed (${res.status})`);
+        }
+        return !currentlySaved;
+    }
+
+    static async submitApplication(jobId, payload) {
+        if (!API_CONFIG.USE_MOCK_DATA) {
+            const res = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.APPLY_JOB(jobId)}`, {
+                method: "POST",
+                headers: this.getHeaders(),
+                credentials: "include",
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error(`Application failed (${res.status})`);
+            return await res.json();
+        }
+        await new Promise(r => setTimeout(r, 180));
+        return { status: "NOT_STARTED", jobId, submittedAt: new Date().toISOString() };
+    }
+
+    static async cancelApplication(jobId, reason) {
+        if (!API_CONFIG.USE_MOCK_DATA) {
+            const res = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CANCEL_JOB(jobId)}`, {
+                method: "DELETE",
+                headers: this.getHeaders(),
+                credentials: "include",
+                body: JSON.stringify({ reason })
+            });
+            if (!res.ok) throw new Error(`Cancellation failed (${res.status})`);
+        }
+        await new Promise(r => setTimeout(r, 180));
+        return { status: "CANCELLED", jobId };
+    }
+}
+
+/* ============================================================================
+ * APPLICATION STATE & UI CONTROLLER
+ * ============================================================================ */
+const state = {
+    jobs: [],
+    savedIds: new Set(),
+    applications: new Map(),
+    initializedDefaults: false,
+    activeTab: "all",
+    quickChip: "all",
+    viewMode: "board"
+};
+
+const jobsGrid = document.getElementById("jobsGrid");
+const resultsCount = document.getElementById("resultsCount");
+const drawer = document.getElementById("jobDrawer");
+const drawerBackdrop = document.getElementById("drawerBackdrop");
+
+function escapeHtml(str) {
+    return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+function showToast(message) {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = "glass-toast";
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+    }, 3200);
+}
+
+/* ============================================================================
+ * NOTIFICATIONS SIDE-DROP POPOVER
+ * ============================================================================ */
+const notifPopover = document.getElementById("notifPopover");
+const notifToggleBtn = document.getElementById("notifToggleBtn");
+
+function closeNotifPopover() {
+    notifPopover.classList.remove("open");
+    notifToggleBtn.classList.remove("active");
+    notifToggleBtn.setAttribute("aria-expanded", "false");
+}
+
+notifToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const willOpen = !notifPopover.classList.contains("open");
+    closeNotifPopover();
+    if (willOpen) {
+        notifPopover.classList.add("open");
+        notifToggleBtn.classList.add("active");
+        notifToggleBtn.setAttribute("aria-expanded", "true");
+    }
+});
+
+document.addEventListener("click", (e) => {
+    if (!document.getElementById("notifAnchor").contains(e.target)) {
+        closeNotifPopover();
+    }
+});
+
+/* ============================================================================
+ * JOB CARDS & DRAWER RENDERING
+ * ============================================================================ */
+function updateNavBadges() {
+    document.getElementById("savedBadge").textContent = state.savedIds.size;
+    document.getElementById("appliedBadge").textContent = state.applications.size;
+}
+
+function renderSkeletons() {
+    jobsGrid.innerHTML = Array.from({ length: 6 })
+        .map(() => `<div class="skeleton-card"></div>`)
+        .join("");
+}
+
+function renderJobs() {
+    let list = [...state.jobs];
+
+    if (state.activeTab === "saved") {
+        list = list.filter(j => state.savedIds.has(j.id));
+    } else if (state.activeTab === "applied") {
+        list = list.filter(j => state.applications.has(j.id));
+    }
+
+    const labelSuffix = state.activeTab === "saved" ? "saved odd job" :
+                        state.activeTab === "applied" ? "application" : "available odd job";
+    resultsCount.textContent = `Showing ${list.length} ${labelSuffix}${list.length === 1 ? "" : "s"}`;
+
+    if (list.length === 0) {
+        jobsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; background: rgba(255,255,255,0.88); padding: 44px; border-radius: 16px; text-align: center;">
+                <h3 style="color: #1f2247; margin-bottom: 8px;">No odd jobs found</h3>
+                <p style="color: #5a6078; font-size: 14px;">Try switching tabs or resetting your search filters.</p>
+            </div>
+        `;
+        return;
+    }
+
+    jobsGrid.innerHTML = list.map((job, idx) => {
+        const isSaved = state.savedIds.has(job.id);
+        const appRecord = state.applications.get(job.id);
+        const isNotStarted = appRecord?.status === "NOT_STARTED";
+        const isInProgress = appRecord?.status === "IN_PROGRESS";
+
+        let actionButtonHtml = `
+            <button type="button" class="card-mini-btn primary" data-quick-apply-id="${job.id}">
+                Apply Now
+            </button>
+        `;
+
+        if (isNotStarted) {
+            actionButtonHtml = state.activeTab === "applied"
+                ? `<button type="button" class="card-mini-btn cancel-btn" data-cancel-id="${job.id}">Cancel Job</button>`
+                : `<button type="button" class="card-mini-btn applied" data-open-id="${job.id}">Scheduled ✓</button>`;
+        } else if (isInProgress) {
+            actionButtonHtml = `<button type="button" class="card-mini-btn applied" data-open-id="${job.id}">In Progress</button>`;
+        }
+
+        const statusBadgeHtml = isNotStarted
+            ? `<span class="status-chip status-not-started">Not Started</span>`
+            : isInProgress
+                ? `<span class="status-chip status-in-progress">In Progress</span>`
+                : "";
+
+        return `
+            <article class="job-card ${job.featured ? "featured" : ""}" data-job-id="${job.id}" style="animation-delay: ${idx * 35}ms;">
+                ${job.featured ? `<div class="top-pick-badge">TOP PICK</div>` : ""}
+
+                <div class="card-main-info">
+                    <div class="card-top-row">
+                        <div class="company-avatar" style="background: ${escapeHtml(job.avatarBg)};">${escapeHtml(job.initials)}</div>
+                        <div class="badge-cluster">
+                            <span class="role-badge ${escapeHtml(job.badgeClass)}">${escapeHtml(job.badgeText)}</span>
+                            ${statusBadgeHtml}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="job-card-title">${escapeHtml(job.title)}</h3>
+                        <div class="job-card-company">${escapeHtml(job.category)} • ${escapeHtml(job.posted)}</div>
+                        <div class="schedule-tag">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            ${escapeHtml(job.startSchedule)}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-bottom-info">
+                    <div class="job-meta-row">
+                        <span class="job-meta-item">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            ${escapeHtml(job.location)}
+                        </span>
+                        <span class="job-meta-item peso-rate">${escapeHtml(job.payDisplay)}</span>
+                    </div>
+
+                    <div class="card-actions-row">
+                        <button type="button" class="bookmark-btn ${isSaved ? "saved" : ""}" data-save-id="${job.id}" title="Save job" aria-label="Save job">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="${isSaved ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                        </button>
+                        <button type="button" class="card-mini-btn" data-open-id="${job.id}">View Details</button>
+                        ${actionButtonHtml}
+                    </div>
+                </div>
+            </article>
+        `;
+    }).join("");
+}
+
+function openJobDrawer(jobId, mode = "view") {
+    const job = state.jobs.find(j => j.id === Number(jobId));
+    if (!job) return;
+
+    const isSaved = state.savedIds.has(job.id);
+    const appRecord = state.applications.get(job.id);
+    const isNotStarted = appRecord?.status === "NOT_STARTED";
+    const isInProgress = appRecord?.status === "IN_PROGRESS";
+
+    let primaryFooterBtnHtml = `
+        <button type="button" class="drawer-pill-btn drawer-pill-primary" id="drawerApplyBtn">
+            Apply Now
+        </button>
+    `;
+
+    if (isNotStarted) {
+        primaryFooterBtnHtml = `
+            <button type="button" class="drawer-pill-btn drawer-pill-danger" id="drawerOpenCancelBtn">
+                Cancel Unstarted Job
+            </button>
+        `;
+    } else if (isInProgress) {
+        primaryFooterBtnHtml = `
+            <button type="button" class="drawer-pill-btn drawer-pill-primary applied" disabled style="cursor: default; opacity: 0.92;">
+                Shift In Progress
+            </button>
+        `;
+    }
+
+    drawer.innerHTML = `
+        <div class="drawer-banner" style="background: ${escapeHtml(job.bannerGradient)};">
+            <button type="button" class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close job details">&times;</button>
+        </div>
+
+        <div class="drawer-avatar-row">
+            <div class="drawer-circle-badge">${escapeHtml(job.initials)}</div>
+            <button type="button" class="drawer-view-all" id="filterByCategoryBtn">More in ${escapeHtml(job.category)}</button>
+        </div>
+
+        <div class="drawer-scroll-body">
+            <h2 class="drawer-title">${escapeHtml(job.title)}</h2>
+            <div class="drawer-company-sub">${escapeHtml(job.company)}</div>
+
+            <div class="drawer-kv-grid">
+                <div class="kv-label">Location</div>
+                <div class="kv-value">${escapeHtml(job.location)}</div>
+
+                <div class="kv-label">Category</div>
+                <div class="kv-value">${escapeHtml(job.category)}</div>
+
+                <div class="kv-label">Work type</div>
+                <div class="kv-value">${escapeHtml(job.employmentType)}</div>
+
+                <div class="kv-label">Start schedule</div>
+                <div class="kv-value">${escapeHtml(job.startSchedule)}</div>
+
+                <div class="kv-label">Pay rate</div>
+                <div class="kv-value" style="color: var(--primary);">${escapeHtml(job.payDisplay)}</div>
+
+                <div class="kv-label">Status</div>
+                <div class="kv-value">
+                    ${isNotStarted ? "Scheduled (Not Started — Worker can cancel)" :
+                      isInProgress ? "In Progress (Shift already started)" :
+                      `Open (${job.applicantsCount} applicants)`}
+                </div>
+            </div>
+
+            <div class="drawer-glass-box">
+                <p class="drawer-description">${escapeHtml(job.description)}</p>
+                <div class="drawer-highlights-title">Job Details & Perks</div>
+                <ul class="drawer-highlights">
+                    ${job.highlights.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+                </ul>
+            </div>
+
+            <!-- APPLY COMPOSER -->
+            <div class="inline-composer ${mode === "apply" && !appRecord ? "open" : ""}" id="applyComposer">
+                <div style="font-size: 13px; font-weight: 700; color: var(--heading-color);">
+                    Apply with your EquiWork Worker Profile
+                </div>
+                <textarea id="coverNoteInput" placeholder="Tell the employer about your experience, tools, or availability (e.g. Can arrive 15 mins early)..."></textarea>
+                <button type="button" class="drawer-pill-btn drawer-pill-primary" style="width: 100%; height: 38px;" id="confirmApplyBtn">
+                    Confirm & Send Application
+                </button>
+            </div>
+
+            <!-- CANCELLATION COMPOSER (ONLY FOR UNSTARTED JOBS) -->
+            <div class="inline-composer danger-box ${mode === "cancel" && isNotStarted ? "open" : ""}" id="cancelComposer">
+                <div style="font-size: 13px; font-weight: 700; color: var(--danger);">
+                    Cancel Job Before Start Time
+                </div>
+                <p style="font-size: 12px; color: #7f1d1d; margin-top: 4px;">
+                    Since this job hasn't started yet (${escapeHtml(job.startSchedule)}), you can withdraw without penalty so the employer can reopen the slot.
+                </p>
+                <select id="cancelReasonSelect">
+                    <option value="Schedule conflict">Reason: Schedule conflict</option>
+                    <option value="Transportation issue">Reason: Transportation issue</option>
+                    <option value="Personal / family emergency">Reason: Personal / family emergency</option>
+                    <option value="Accepted another odd job">Reason: Accepted another odd job</option>
+                </select>
+                <button type="button" class="drawer-pill-btn drawer-pill-danger" style="width: 100%; height: 38px; background: var(--danger); color: #fff; border: none;" id="confirmCancelBtn">
+                    Confirm Job Cancellation
+                </button>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <button type="button" class="drawer-pill-btn drawer-pill-secondary" id="drawerSaveBtn">
+                ${isSaved ? "Saved ✓" : "Save Job"}
+            </button>
+            ${primaryFooterBtnHtml}
+        </div>
+    `;
+
+    drawerBackdrop.classList.add("open");
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden", "false");
+
+    document.getElementById("closeDrawerBtn").addEventListener("click", closeJobDrawer);
+
+    document.getElementById("filterByCategoryBtn").addEventListener("click", () => {
+        document.getElementById("sideCategorySelect").value = job.category;
+        closeJobDrawer();
+        loadFilteredJobs();
+    });
+
+    document.getElementById("drawerSaveBtn").addEventListener("click", async (e) => {
+        await handleToggleSave(job.id);
+        e.target.textContent = state.savedIds.has(job.id) ? "Saved ✓" : "Save Job";
+    });
+
+    const applyBtn = document.getElementById("drawerApplyBtn");
+    if (applyBtn) {
+        applyBtn.addEventListener("click", () => {
+            const composer = document.getElementById("applyComposer");
+            composer.classList.toggle("open");
+            if (composer.classList.contains("open")) {
+                document.getElementById("coverNoteInput").focus();
+            }
+        });
+    }
+
+    const openCancelBtn = document.getElementById("drawerOpenCancelBtn");
+    if (openCancelBtn) {
+        openCancelBtn.addEventListener("click", () => {
+            const cancelBox = document.getElementById("cancelComposer");
+            cancelBox.classList.toggle("open");
+        });
+    }
+
+    const confirmBtn = document.getElementById("confirmApplyBtn");
+    if (confirmBtn) {
+        confirmBtn.addEventListener("click", async () => {
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = "Submitting...";
+            const note = document.getElementById("coverNoteInput").value.trim();
+
+            try {
+                await EquiWorkApi.submitApplication(job.id, { coverNote: note });
+                state.applications.set(job.id, { status: "NOT_STARTED", coverNote: note });
+                updateNavBadges();
+                renderJobs();
+                openJobDrawer(job.id, "view");
+                showToast(`Application sent for ${job.title} (${job.startSchedule})`);
+            } catch (err) {
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = "Confirm & Send Application";
+                showToast("Could not submit application. Check backend connection.");
+            }
+        });
+    }
+
+    const confirmCancelBtn = document.getElementById("confirmCancelBtn");
+    if (confirmCancelBtn) {
+        confirmCancelBtn.addEventListener("click", async () => {
+            confirmCancelBtn.disabled = true;
+            confirmCancelBtn.textContent = "Cancelling...";
+            const reason = document.getElementById("cancelReasonSelect").value;
+
+            try {
+                await EquiWorkApi.cancelApplication(job.id, reason);
+                state.applications.delete(job.id);
+                const seedItem = SEED_JOBS_DTO.find(s => s.id === job.id);
+                if (seedItem) seedItem.applicationStatus = null;
+
+                updateNavBadges();
+                renderJobs();
+                openJobDrawer(job.id, "view");
+                showToast(`Cancelled "${job.title}". Slot released to employer.`);
+            } catch (err) {
+                confirmCancelBtn.disabled = false;
+                confirmCancelBtn.textContent = "Confirm Job Cancellation";
+                showToast("Could not cancel job right now.");
+            }
+        });
+    }
+}
+
+function closeJobDrawer() {
+    drawerBackdrop.classList.remove("open");
+    drawer.classList.remove("open");
+    drawer.setAttribute("aria-hidden", "true");
+}
+
+async function handleToggleSave(jobId) {
+    const currentlySaved = state.savedIds.has(jobId);
+    try {
+        const nowSaved = await EquiWorkApi.toggleBookmark(jobId, currentlySaved);
+        if (nowSaved) {
+            state.savedIds.add(jobId);
+            showToast("Odd job saved to your bookmarks");
+        } else {
+            state.savedIds.delete(jobId);
+            showToast("Removed from saved jobs");
+        }
+        updateNavBadges();
+        renderJobs();
+    } catch (err) {
+        showToast("Failed to update bookmark");
+    }
+}
+
+function gatherFilters() {
+    const keyword = (document.getElementById("topKeywordInput").value || document.getElementById("sideTitleInput").value).trim();
+    const location = (document.getElementById("topLocationInput").value || document.getElementById("sideLocationInput").value).trim();
+    const topType = document.getElementById("topTypeSelect").value;
+    const category = document.getElementById("sideCategorySelect").value;
+    const sort = document.getElementById("sortSelect").value;
+
+    const rawPay = document.getElementById("topSalaryInput").value.replace(/[^\d]/g, "");
+    const minPay = rawPay ? Number(rawPay) : 0;
+
+    const checkedTypes = Array.from(document.querySelectorAll("#employmentCheckboxes input:checked")).map(cb => cb.value);
+    const employmentTypes = topType ? Array.from(new Set([topType, ...checkedTypes])) : checkedTypes;
+
+    return { keyword, location, category, minPay, employmentTypes, sort, quickChip: state.quickChip };
+}
+
+async function loadFilteredJobs() {
+    renderSkeletons();
+    try {
+        const filters = gatherFilters();
+        const jobs = await EquiWorkApi.fetchJobs(filters);
+        state.jobs = jobs;
+
+        if (!state.initializedDefaults) {
+            jobs.forEach(j => {
+                if (j.saved) state.savedIds.add(j.id);
+                if (j.applicationStatus) {
+                    state.applications.set(j.id, { status: j.applicationStatus });
+                }
+            });
+            state.initializedDefaults = true;
+        }
+        updateNavBadges();
+        renderJobs();
+    } catch (err) {
+        resultsCount.textContent = "Unable to load jobs";
+        jobsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; background: rgba(255,255,255,0.9); padding: 36px; border-radius: 16px; text-align: center;">
+                <h3 style="color: #b91c1c; margin-bottom: 8px;">Backend Connection Error</h3>
+                <p style="color: #5a6078; font-size: 14px;">Could not reach Spring Boot API at <code>${escapeHtml(API_CONFIG.BASE_URL)}</code>.</p>
+            </div>
+        `;
+    }
+}
+
+function debounce(fn, delay = 250) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+}
+
+// Event Delegation on Job Grid
+jobsGrid.addEventListener("click", (e) => {
+    const saveBtn = e.target.closest("[data-save-id]");
+    if (saveBtn) {
+        e.stopPropagation();
+        handleToggleSave(Number(saveBtn.dataset.saveId));
+        return;
+    }
+
+    const quickApplyBtn = e.target.closest("[data-quick-apply-id]");
+    if (quickApplyBtn) {
+        e.stopPropagation();
+        openJobDrawer(quickApplyBtn.dataset.quickApplyId, "apply");
+        return;
+    }
+
+    const cancelBtn = e.target.closest("[data-cancel-id]");
+    if (cancelBtn) {
+        e.stopPropagation();
+        openJobDrawer(cancelBtn.dataset.cancelId, "cancel");
+        return;
+    }
+
+    const card = e.target.closest("[data-job-id]");
+    if (card) {
+        openJobDrawer(card.dataset.jobId, "view");
+    }
+});
+
+// Navbar Tabs (Find Odd Jobs / My Applications / Saved Jobs)
+document.getElementById("navTabs").addEventListener("click", (e) => {
+    const tabBtn = e.target.closest("[data-tab]");
+    if (!tabBtn) return;
+    document.querySelectorAll("#navTabs .nav-link").forEach(btn => btn.classList.remove("active"));
+    tabBtn.classList.add("active");
+    state.activeTab = tabBtn.dataset.tab;
+    renderJobs();
+});
+
+// Quick Filter Chips
+document.getElementById("quickChipsRow").addEventListener("click", (e) => {
+    const chip = e.target.closest("[data-chip]");
+    if (!chip) return;
+    document.querySelectorAll("#quickChipsRow .quick-chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    state.quickChip = chip.dataset.chip;
+    loadFilteredJobs();
+});
+
+// Board vs. List View Switcher
+document.getElementById("viewToggleBtn").addEventListener("click", (e) => {
+    state.viewMode = state.viewMode === "board" ? "list" : "board";
+    jobsGrid.classList.toggle("list-view", state.viewMode === "list");
+    e.target.textContent = state.viewMode === "board" ? "Board View ▾" : "List View ▾";
+});
+
+// Collapsible Sidebar Filter Groups
+document.querySelectorAll(".filter-sidebar .filter-label").forEach(label => {
+    label.addEventListener("click", () => {
+        label.closest(".filter-group").classList.toggle("collapsed");
+    });
+});
+
+drawerBackdrop.addEventListener("click", closeJobDrawer);
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        closeNotifPopover();
+        closeJobDrawer();
+    }
+});
+
+// Debounced Search & Filter Bindings
+const debouncedSearch = debounce(loadFilteredJobs, 250);
+document.getElementById("searchBtn").addEventListener("click", loadFilteredJobs);
+document.getElementById("topKeywordInput").addEventListener("input", debouncedSearch);
+document.getElementById("sideTitleInput").addEventListener("input", debouncedSearch);
+document.getElementById("topLocationInput").addEventListener("input", debouncedSearch);
+document.getElementById("sideLocationInput").addEventListener("input", debouncedSearch);
+document.getElementById("topSalaryInput").addEventListener("input", debouncedSearch);
+document.getElementById("topTypeSelect").addEventListener("change", loadFilteredJobs);
+document.getElementById("sideCategorySelect").addEventListener("change", loadFilteredJobs);
+document.getElementById("employmentCheckboxes").addEventListener("change", loadFilteredJobs);
+document.getElementById("sortSelect").addEventListener("change", loadFilteredJobs);
+
+document.getElementById("resetFiltersBtn").addEventListener("click", () => {
+    document.getElementById("topKeywordInput").value = "";
+    document.getElementById("sideTitleInput").value = "";
+    document.getElementById("topLocationInput").value = "";
+    document.getElementById("sideLocationInput").value = "";
+    document.getElementById("topSalaryInput").value = "";
+    document.getElementById("topTypeSelect").value = "";
+    document.getElementById("sideCategorySelect").value = "";
+    document.getElementById("sortSelect").value = "recommended";
+    document.querySelectorAll("#employmentCheckboxes input").forEach(cb => cb.checked = false);
+    state.quickChip = "all";
+    document.querySelectorAll("#quickChipsRow .quick-chip").forEach(c => {
+        c.classList.toggle("active", c.dataset.chip === "all");
+    });
+    loadFilteredJobs();
+});
+
+// Initial Fetch
+loadFilteredJobs();
+</script>
+
+</body>
+</html>
