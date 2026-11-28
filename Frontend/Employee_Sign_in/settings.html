@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EquiWork | Settings</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="settings.css" />
+</head>
+
+<body>
+  <!-- BACKGROUND TEMPLATE AS IS -->
+  <div class="bg-layer" aria-hidden="true">
+    <iframe class="bg" src="background-template.html" title="" tabindex="-1"></iframe>
+  </div>
+
+  <div class="settings-shell">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="topbar__left">
+          <a href="employer.html" class="back-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            <span>Back to Dashboard</span>
+          </a>
+          <span class="topbar__sep" aria-hidden="true"></span>
+          <h1 class="page-title">Settings</h1>
+        </div>
+
+        <div class="topbar__right">
+          <span class="save-badge" id="saveBadge" hidden>Unsaved changes</span>
+          <a href="employer.html" class="brand-link" aria-label="EquiWork Home">
+            <img src="EquiWork-Logo-removebg-preview.png" alt="EquiWork Logo" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN SETTINGS LAYOUT -->
+    <main class="settings-layout">
+      <!-- LEFT NAVIGATION -->
+      <aside class="settings-nav-card" aria-label="Settings categories">
+        <div class="profile-summary">
+          <div class="profile-avatar" id="avatarInitials" aria-hidden="true">EH</div>
+          <div class="profile-meta">
+            <strong id="summaryName">EquiWork HR</strong>
+            <span id="summaryEmail">hr@equiwork.ph</span>
+          </div>
+        </div>
+
+        <nav class="settings-tabs" role="tablist" aria-orientation="vertical">
+          <button type="button" class="tab-btn is-active" role="tab" id="tab-account" aria-selected="true"
+            aria-controls="panel-account" data-tab="account">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c.8-4 4-6 8-6s7.2 2 8 6" />
+            </svg>
+            <span>Account &amp; Profile</span>
+          </button>
+
+          <button type="button" class="tab-btn" role="tab" id="tab-company" aria-selected="false"
+            aria-controls="panel-company" data-tab="company">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="7" width="18" height="13" rx="2" />
+              <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" />
+            </svg>
+            <span>Company &amp; Workspace</span>
+          </button>
+
+          <button type="button" class="tab-btn" role="tab" id="tab-notifications" aria-selected="false"
+            aria-controls="panel-notifications" data-tab="notifications">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+            </svg>
+            <span>Notifications</span>
+          </button>
+
+          <button type="button" class="tab-btn" role="tab" id="tab-security" aria-selected="false"
+            aria-controls="panel-security" data-tab="security">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z" />
+              <path d="M9.5 12l2 2 3.5-4" />
+            </svg>
+            <span>Security &amp; Privacy</span>
+          </button>
+
+          <button type="button" class="tab-btn tab-btn--danger" role="tab" id="tab-danger" aria-selected="false"
+            aria-controls="panel-danger" data-tab="danger">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 9v4M12 17h.01" />
+              <path d="M10.3 3.6L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0z" />
+            </svg>
+            <span>Data &amp; Danger Zone</span>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- RIGHT CONTENT PANELS -->
+      <section class="settings-content">
+        <form id="settingsForm" novalidate>
+          <!-- PANEL 1: ACCOUNT & PROFILE -->
+          <div class="settings-panel is-active" id="panel-account" role="tabpanel" aria-labelledby="tab-account">
+            <div class="panel-head">
+              <div>
+                <h2>Account &amp; Profile</h2>
+                <p>Manage your personal information and how your profile appears across EquiWork.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="displayName">Full Name</label>
+                <input type="text" id="displayName" name="displayName" placeholder="e.g. Maria Santos" required />
+              </div>
+
+              <div class="field">
+                <label for="roleTitle">Role / Position</label>
+                <input type="text" id="roleTitle" name="roleTitle" placeholder="e.g. HR Manager" />
+              </div>
+
+              <div class="field">
+                <label for="accountEmail">Email Address</label>
+                <input type="email" id="accountEmail" name="accountEmail" placeholder="name@company.com" required />
+                <span class="field-error" id="emailError"></span>
+              </div>
+
+              <div class="field">
+                <label for="accountPhone">Phone Number</label>
+                <input type="tel" id="accountPhone" name="accountPhone" placeholder="+63 912 345 6789" />
+              </div>
+
+              <div class="field field--full">
+                <label for="accountBio">Short Bio</label>
+                <textarea id="accountBio" name="accountBio" rows="3"
+                  placeholder="Tell applicants or employers a little about you..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: COMPANY & WORKSPACE -->
+          <div class="settings-panel" id="panel-company" role="tabpanel" aria-labelledby="tab-company" hidden>
+            <div class="panel-head">
+              <div>
+                <h2>Company &amp; Workspace</h2>
+                <p>Configure your organization details, default location, and regional preferences.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="companyName">Company Name</label>
+                <input type="text" id="companyName" name="companyName" placeholder="EquiWork Philippines" />
+              </div>
+
+              <div class="field">
+                <label for="companyIndustry">Industry</label>
+                <select id="companyIndustry" name="companyIndustry">
+                  <option value="Technology">Technology &amp; Software</option>
+                  <option value="Retail">Retail &amp; E-Commerce</option>
+                  <option value="Hospitality">Hospitality &amp; Food</option>
+                  <option value="Healthcare">Healthcare</option>
+                  <option value="Finance">Finance &amp; Accounting</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="companyLocation">Primary Location</label>
+                <input type="text" id="companyLocation" name="companyLocation" placeholder="Metro Manila, Philippines" />
+              </div>
+
+              <div class="field">
+                <label for="defaultCurrency">Default Currency</label>
+                <select id="defaultCurrency" name="defaultCurrency">
+                  <option value="PHP">PHP (₱) — Philippine Peso</option>
+                  <option value="USD">USD ($) — US Dollar</option>
+                  <option value="SGD">SGD (S$) — Singapore Dollar</option>
+                </select>
+              </div>
+
+              <div class="field field--full">
+                <label for="timezone">Timezone</label>
+                <select id="timezone" name="timezone">
+                  <option value="Asia/Manila">(GMT+08:00) Manila, Philippines</option>
+                  <option value="Asia/Singapore">(GMT+08:00) Singapore</option>
+                  <option value="UTC">(GMT+00:00) UTC</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 3: NOTIFICATIONS -->
+          <div class="settings-panel" id="panel-notifications" role="tabpanel" aria-labelledby="tab-notifications" hidden>
+            <div class="panel-head">
+              <div>
+                <h2>Notifications</h2>
+                <p>Choose which updates you want to receive and how we alert you.</p>
+              </div>
+            </div>
+
+            <div class="toggle-list">
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <strong>Applicant &amp; Job Alerts</strong>
+                  <span>Get notified immediately when someone applies or responds.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="notifApplicants" name="notifApplicants" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <strong>Direct Messages</strong>
+                  <span>Receive email and in-app alerts for new chat messages.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="notifMessages" name="notifMessages" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <strong>Weekly Activity Digest</strong>
+                  <span>A summary of views, matches, and open roles every Monday.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="notifDigest" name="notifDigest" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <strong>Product Updates &amp; Tips</strong>
+                  <span>Occasional news about new EquiWork features.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="notifMarketing" name="notifMarketing" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 4: SECURITY & PRIVACY -->
+          <div class="settings-panel" id="panel-security" role="tabpanel" aria-labelledby="tab-security" hidden>
+            <div class="panel-head">
+              <div>
+                <h2>Security &amp; Privacy</h2>
+                <p>Protect your account and control who can view your profile.</p>
+              </div>
+            </div>
+
+            <div class="toggle-list">
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <strong>Two-Factor Authentication (2FA)</strong>
+                  <span>Add an extra verification step when signing in from new devices.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="twoFactorEnabled" name="twoFactorEnabled" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <strong>Public Directory Visibility</strong>
+                  <span>Allow verified users on EquiWork to discover your profile.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="publicVisibility" name="publicVisibility" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="sub-divider"></div>
+
+            <h3 class="sub-heading">Change Password</h3>
+            <div class="form-grid">
+              <div class="field">
+                <label for="newPassword">New Password</label>
+                <div class="password-wrap">
+                  <input type="password" id="newPassword" placeholder="Minimum 8 characters" autocomplete="new-password" />
+                  <button type="button" class="eye-btn" data-target="newPassword" aria-label="Show password">
+                    Show
+                  </button>
+                </div>
+                <div class="strength-bar" aria-hidden="true">
+                  <span id="strengthFill"></span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="confirmPassword">Confirm New Password</label>
+                <div class="password-wrap">
+                  <input type="password" id="confirmPassword" placeholder="Re-enter new password"
+                    autocomplete="new-password" />
+                  <button type="button" class="eye-btn" data-target="confirmPassword" aria-label="Show password">
+                    Show
+                  </button>
+                </div>
+                <span class="field-error" id="passwordError"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 5: DATA & DANGER ZONE -->
+          <div class="settings-panel" id="panel-danger" role="tabpanel" aria-labelledby="tab-danger" hidden>
+            <div class="panel-head">
+              <div>
+                <h2>Data &amp; Danger Zone</h2>
+                <p>Export your saved settings or reset and manage account deletion.</p>
+              </div>
+            </div>
+
+            <div class="danger-cards">
+              <div class="action-card">
+                <div>
+                  <strong>Export Settings &amp; Profile Data</strong>
+                  <p>Download a JSON copy of your saved EquiWork preferences.</p>
+                </div>
+                <button type="button" class="btn btn--secondary" id="exportDataBtn">Export JSON</button>
+              </div>
+
+              <div class="action-card">
+                <div>
+                  <strong>Reset All Preferences</strong>
+                  <p>Restore all settings on this page back to their default values.</p>
+                </div>
+                <button type="button" class="btn btn--secondary" id="resetDefaultsBtn">Reset Defaults</button>
+              </div>
+
+              <div class="action-card action-card--danger">
+                <div>
+                  <strong>Delete Account</strong>
+                  <p>Permanently remove your local profile and sign out of EquiWork.</p>
+                </div>
+                <button type="button" class="btn btn--danger" id="deleteAccountBtn">Delete Account</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STICKY ACTION FOOTER -->
+          <div class="panel-footer">
+            <button type="button" class="btn btn--ghost" id="discardBtn">Discard</button>
+            <button type="submit" class="btn btn--primary" id="saveBtn">Save Changes</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="confirmModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Confirm Action</h3>
+      <p id="modalDesc">Are you sure you want to proceed?</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" id="modalCancelBtn">Cancel</button>
+        <button type="button" class="btn btn--danger" id="modalConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="settings.js"></script>
+</body>
+
+</html>

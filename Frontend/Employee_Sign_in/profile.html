@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EquiWork | My Profile</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="profile.css" />
+</head>
+
+<body>
+  <!-- BACKGROUND TEMPLATE AS IS -->
+  <div class="bg-layer" aria-hidden="true">
+    <iframe class="bg" src="background-template.html" title="" tabindex="-1"></iframe>
+  </div>
+
+  <div class="profile-shell">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="topbar__left">
+          <a href="employer.html" class="back-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            <span>Back to Dashboard</span>
+          </a>
+          <span class="topbar__sep" aria-hidden="true"></span>
+          <h1 class="page-title">My Profile</h1>
+        </div>
+
+        <div class="topbar__right">
+          <a href="settings.html" class="settings-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.5 1z" />
+            </svg>
+            <span>Settings</span>
+          </a>
+
+          <a href="employer.html" class="brand-link" aria-label="EquiWork Home">
+            <img src="EquiWork-Logo-removebg-preview.png" alt="EquiWork Logo" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="profile-main">
+      <!-- HERO PROFILE CARD -->
+      <section class="hero-card">
+        <div class="hero-banner" aria-hidden="true"></div>
+
+        <div class="hero-body">
+          <div class="hero-identity">
+            <div class="avatar-wrap">
+              <div class="avatar-circle" id="avatarCircle">
+                <span id="avatarInitials">EH</span>
+                <img id="avatarImage" alt="Profile photo" hidden />
+              </div>
+              <button type="button" class="avatar-upload-btn" id="avatarUploadBtn" title="Change profile photo"
+                aria-label="Change profile photo">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg>
+              </button>
+              <input type="file" id="avatarInput" accept="image/*" hidden />
+            </div>
+
+            <div class="hero-titles">
+              <div class="name-badge-row">
+                <h2 id="profileName">EquiWork HR</h2>
+                <span class="verified-pill">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                  Verified
+                </span>
+              </div>
+              <p class="hero-role" id="profileRole">Verified Employer • EquiWork Philippines</p>
+              <p class="hero-location" id="profileLocation">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" />
+                  <circle cx="12" cy="9.5" r="2.5" />
+                </svg>
+                <span id="profileLocationText">Metro Manila, Philippines</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button type="button" class="btn btn--secondary" id="copyProfileBtn">Share Profile</button>
+            <button type="button" class="btn btn--primary" id="editProfileBtn">Edit Profile</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TWO-COLUMN GRID -->
+      <div class="profile-grid">
+        <!-- LEFT COLUMN -->
+        <div class="profile-col-main">
+          <!-- ABOUT CARD -->
+          <section class="glass-card">
+            <div class="card-head">
+              <h3>About</h3>
+            </div>
+            <p class="bio-text" id="profileBio">
+              Hiring fair and inclusive talent across the Philippines.
+            </p>
+          </section>
+
+          <!-- COMPANY & WORKSPACE OVERVIEW -->
+          <section class="glass-card">
+            <div class="card-head">
+              <h3>Organization Details</h3>
+            </div>
+            <dl class="detail-grid">
+              <div class="detail-item">
+                <dt>Company Name</dt>
+                <dd id="companyNameVal">EquiWork Philippines</dd>
+              </div>
+              <div class="detail-item">
+                <dt>Industry</dt>
+                <dd id="companyIndustryVal">Technology</dd>
+              </div>
+              <div class="detail-item">
+                <dt>Team Size</dt>
+                <dd id="teamSizeVal">11–50 employees</dd>
+              </div>
+              <div class="detail-item">
+                <dt>Website</dt>
+                <dd id="websiteVal">https://equiwork.ph</dd>
+              </div>
+            </dl>
+          </section>
+
+          <!-- HIRING HIGHLIGHTS -->
+          <section class="glass-card">
+            <div class="card-head">
+              <h3>Account Activity</h3>
+            </div>
+            <div class="stats-row">
+              <div class="stat-box">
+                <strong>4</strong>
+                <span>Active Postings</span>
+              </div>
+              <div class="stat-box">
+                <strong>28</strong>
+                <span>Applicants Reviewed</span>
+              </div>
+              <div class="stat-box">
+                <strong>94%</strong>
+                <span>Response Rate</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="profile-col-side">
+          <!-- PROFILE COMPLETION -->
+          <section class="glass-card">
+            <div class="card-head">
+              <h3>Profile Strength</h3>
+              <span class="completion-pct" id="completionPct">100%</span>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <span class="progress-fill" id="completionBar"></span>
+            </div>
+            <p class="completion-note" id="completionNote">
+              Your profile is complete and ready to build trust with candidates.
+            </p>
+          </section>
+
+          <!-- CONTACT INFORMATION -->
+          <section class="glass-card">
+            <div class="card-head">
+              <h3>Contact Information</h3>
+            </div>
+            <ul class="contact-list">
+              <li>
+                <span class="contact-label">Email</span>
+                <strong id="contactEmail">hr@equiwork.ph</strong>
+              </li>
+              <li>
+                <span class="contact-label">Phone</span>
+                <strong id="contactPhone">+63 917 555 0142</strong>
+              </li>
+              <li>
+                <span class="contact-label">Timezone</span>
+                <strong id="contactTimezone">Asia/Manila</strong>
+              </li>
+              <li>
+                <span class="contact-label">Visibility</span>
+                <strong id="contactVisibility">Public</strong>
+              </li>
+            </ul>
+          </section>
+
+          <!-- HIRING FOCUS / SPECIALTIES -->
+          <section class="glass-card">
+            <div class="card-head">
+              <h3>Hiring Focus</h3>
+            </div>
+            <div class="tag-input-row">
+              <input type="text" id="specialtyInput" placeholder="Add specialty (e.g. Sales)"
+                aria-label="Add hiring specialty" />
+              <button type="button" class="btn-add-tag" id="addSpecialtyBtn">+ Add</button>
+            </div>
+            <div class="tag-list" id="specialtyList" aria-live="polite"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- EDIT PROFILE MODAL -->
+  <div class="modal-backdrop" id="editModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <div class="modal-head">
+        <h3 id="editModalTitle">Edit Profile</h3>
+        <button type="button" class="modal-close" id="closeModalBtn" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="editProfileForm" class="modal-form" novalidate>
+        <div class="modal-grid">
+          <div class="field">
+            <label for="editDisplayName">Full Name</label>
+            <input type="text" id="editDisplayName" required />
+          </div>
+          <div class="field">
+            <label for="editRoleTitle">Role / Position</label>
+            <input type="text" id="editRoleTitle" />
+          </div>
+          <div class="field">
+            <label for="editEmail">Email Address</label>
+            <input type="email" id="editEmail" required />
+          </div>
+          <div class="field">
+            <label for="editPhone">Phone Number</label>
+            <input type="tel" id="editPhone" />
+          </div>
+          <div class="field">
+            <label for="editCompanyName">Company Name</label>
+            <input type="text" id="editCompanyName" />
+          </div>
+          <div class="field">
+            <label for="editLocation">Location</label>
+            <input type="text" id="editLocation" />
+          </div>
+          <div class="field">
+            <label for="editTeamSize">Team Size</label>
+            <select id="editTeamSize">
+              <option value="1–10 employees">1–10 employees</option>
+              <option value="11–50 employees">11–50 employees</option>
+              <option value="51–200 employees">51–200 employees</option>
+              <option value="200+ employees">200+ employees</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="editWebsite">Website</label>
+            <input type="url" id="editWebsite" placeholder="https://example.com" />
+          </div>
+          <div class="field field--full">
+            <label for="editBio">About / Bio</label>
+            <textarea id="editBio" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn--ghost" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn--primary">Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="profile.js"></script>
+</body>
+
+</html>
