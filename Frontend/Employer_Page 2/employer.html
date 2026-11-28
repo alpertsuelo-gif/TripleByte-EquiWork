@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EquiWork | Employer Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="employer.css" />
+  </head>
+
+  <body>
+    <div class="bg-layer" aria-hidden="true">
+      <iframe
+        class="bg"
+        src="background-template.html"
+        title=""
+        tabindex="-1"
+      ></iframe>
+    </div>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="leftSidebar" aria-label="Primary navigation">
+        <div class="sidebar__shape" aria-hidden="true"></div>
+
+        <div class="sidebar__head">
+          <a
+            class="sidebar__brand"
+            href="#dashboard"
+            aria-label="EquiWork Home"
+          >
+            <img src="EquiWork-Logo.png" alt="EquiWork Logo" />
+          </a>
+
+          <button
+            class="sidebar-collapse"
+            id="sidebarCollapse"
+            type="button"
+            aria-label="Minimize sidebar"
+            aria-expanded="true"
+            title="Minimize sidebar"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 6l-6 6 6 6" />
+            </svg>
+          </button>
+
+          <button
+            class="sidebar-close"
+            id="sidebarClose"
+            type="button"
+            aria-label="Close navigation"
+            title="Close navigation"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="side-nav">
+          <a
+            href="#dashboard"
+            class="side-nav__link is-active"
+            style="--accent: #f4b323; --accent-ink: #292313"
+            title="Dashboard"
+            aria-current="page"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"
+              />
+            </svg>
+            <span class="side-nav__label">Dashboard</span>
+          </a>
+
+        </nav>
+
+        <div class="sidebar__foot">
+          <div class="sidebar__profile" title="Employer Account">
+            <span class="sidebar__profile-avatar" aria-hidden="true">EA</span>
+            <div class="sidebar__profile-info">
+              <span class="sidebar__profile-name">EquiWork HR</span>
+              <span class="sidebar__profile-role">Verified Employer</span>
+            </div>
+          </div>
+        </div>
+        <span
+          class="side-nav__bubble"
+          id="sidebarBubble"
+          aria-hidden="true"
+        ></span>
+      </aside>
+
+      <div
+        class="sidebar-backdrop"
+        id="sidebarBackdrop"
+        aria-hidden="true"
+      ></div>
+
+      <main class="main-stage">
+        <header class="topbar">
+          <div class="topbar__inner">
+            <div class="topbar__title-group">
+              <button
+                type="button"
+                class="sidebar-toggle"
+                id="mobileNavBtn"
+                aria-label="Open navigation"
+                aria-controls="leftSidebar"
+                aria-expanded="false"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+              </button>
+              <h1 class="page-title">My Job Postings</h1>
+            </div>
+
+            <div class="topbar__actions">
+              <button
+                type="button"
+                class="btn-add-job-primary"
+                id="openAddJobBtn"
+              >
+                + Add Job
+              </button>
+
+              <div class="account" id="accountBox">
+                <button
+                  type="button"
+                  class="account__btn"
+                  id="accountBtn"
+                  aria-expanded="false"
+                >
+                  <span class="account__avatar" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M4 20c1.6-3.5 4.5-5 8-5s6.4 1.5 8 5" />
+                    </svg>
+                  </span>
+                  <span class="account__info">
+                    <span class="account__name">Employer</span>
+                    <span class="account__role">employer@equiwork.local</span>
+                  </span>
+                  <svg
+                    class="account__chev"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+                <ul class="account__menu" id="accountMenu" role="menu">
+                  <li><a href="employer.html">My Job Postings</a></li>
+                  <li><a href="profile.html">Company Profile</a></li>
+                  <li><a href="settings.html">Settings</a></li>
+                  <li><a href="index.html">Sign out</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="workspace-content">
+          <form class="search" id="searchForm" autocomplete="off">
+            <div class="search__field search__field--kw">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" />
+              </svg>
+              <input
+                type="text"
+                id="qInput"
+                name="q"
+                placeholder="Search your posted jobs (e.g. Carpenter, Driver)"
+              />
+            </div>
+
+            <div class="search__divider" aria-hidden="true"></div>
+
+            <div class="search__loc" id="locBox">
+              <div class="search__field">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" />
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
+                <input
+                  type="text"
+                  id="locInput"
+                  name="loc"
+                  placeholder="Filter by location"
+                />
+              </div>
+              <ul class="loc__menu" id="locDropdown"></ul>
+            </div>
+
+            <div class="search__buttons">
+              <div class="filter-wrap">
+                <button
+                  type="button"
+                  class="btn btn--filter"
+                  id="filterToggle"
+                  aria-expanded="false"
+                >
+                  Filters
+                  <span class="filter-badge" id="filterBadge" hidden>0</span>
+                </button>
+
+                <div class="filters" id="filterPopover">
+                  <div class="filters__head">
+                    <span class="filters__title">Filter Job Postings</span>
+                    <button
+                      type="button"
+                      class="filters__clear"
+                      id="clearFilters"
+                    >
+                      Clear all
+                    </button>
+                  </div>
+
+                  <div class="filters__grid">
+                    <div class="filters__field">
+                      <label class="filters__label" for="fType"
+                        >Work Type</label
+                      >
+                      <select id="fType" class="dd__btn">
+                        <option value="">Any type</option>
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Daily">Daily</option>
+                      </select>
+                    </div>
+
+                    <div class="filters__field">
+                      <label class="filters__label" for="fClass"
+                        >Classification</label
+                      >
+                      <select id="fClass" class="dd__btn">
+                        <option value="">All classifications</option>
+                        <option value="Construction & Trades">
+                          Construction & Trades
+                        </option>
+                        <option value="Logistics & Delivery">
+                          Logistics & Delivery
+                        </option>
+                        <option value="Hospitality & Food">
+                          Hospitality & Food
+                        </option>
+                        <option value="Household & Care">
+                          Household & Care
+                        </option>
+                        <option value="Retail & Service">
+                          Retail & Service
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="modal-actions">
+                    <button type="button" class="btn-apply" id="applyFilters">
+                      Apply filters
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn--seek">Search</button>
+            </div>
+          </form>
+
+          <div class="results-toolbar">
+            <div class="results-info">
+              <p class="results-bar__count">
+                <strong id="jobCount">0</strong>
+                <span id="jobCountLabel">active job postings</span>
+              </p>
+            </div>
+
+            <div class="posting-tabs" role="group" aria-label="Job posting status">
+              <button
+                type="button"
+                class="posting-tab is-active"
+                id="activeJobsTab"
+                aria-pressed="true"
+              >
+                Active <span id="activeJobTotal">0</span>
+              </button>
+              <button
+                type="button"
+                class="posting-tab"
+                id="jobHistoryTab"
+                aria-pressed="false"
+              >
+                History <span id="historyJobTotal">0</span>
+              </button>
+            </div>
+
+            <div class="results-controls">
+              <div class="views" role="group" aria-label="View layout">
+                <button
+                  type="button"
+                  class="views__btn is-on"
+                  data-view="grid"
+                  title="Grid view"
+                >
+                  ▦
+                </button>
+                <button
+                  type="button"
+                  class="views__btn"
+                  data-view="list"
+                  title="List view"
+                >
+                  ☰
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- FIRST-TIME / EMPTY STATE ADD JOB BANNER -->
+          <section class="empty-add-job glass-panel" id="emptyStateBanner">
+            <div class="empty-icon">+</div>
+            <h2>Post your first job opening</h2>
+            <p>
+              Create a job listing with pay details and requirements. Once
+              posted, workers can apply and you can review all applicants here.
+            </p>
+            <button
+              type="button"
+              class="btn-add-job-primary btn-lg"
+              id="emptyAddJobBtn"
+            >
+              + Add Job
+            </button>
+          </section>
+
+          <!-- GLASS JOB CARDS CONTAINER -->
+          <section class="cards grid-view" id="cardsContainer" hidden></section>
+        </div>
+      </main>
+    </div>
+
+    <!-- ADD JOB MODAL -->
+    <div class="modal-backdrop" id="addJobModal" hidden>
+      <div
+        class="modal-card glass-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="addJobModalTitle"
+      >
+        <div class="modal-header">
+          <h2 id="addJobModalTitle">Post a New Job</h2>
+          <button
+            type="button"
+            class="drawer-close"
+            id="closeAddJobModal"
+            aria-label="Close modal"
+          >
+            ✕
+          </button>
+        </div>
+        <form id="addJobForm" class="modal-form">
+          <label class="f-group">
+            <span>Job Title *</span>
+            <input
+              type="text"
+              id="jobTitleInput"
+              required
+              placeholder="e.g. Carpenter, Delivery Driver"
+            />
+          </label>
+
+          <div class="modal-row">
+            <label class="f-group">
+              <span>Location *</span>
+              <input
+                type="text"
+                id="jobLocationInput"
+                required
+                placeholder="e.g. Batangas City"
+              />
+            </label>
+            <label class="f-group">
+              <span>Pay Rate *</span>
+              <input
+                type="text"
+                id="jobPayInput"
+                required
+                placeholder="e.g. ₱750 / day"
+              />
+            </label>
+          </div>
+
+          <div class="modal-row">
+            <label class="f-group">
+              <span>Work Type</span>
+              <select id="jobTypeInput">
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Daily">Daily</option>
+              </select>
+            </label>
+            <label class="f-group">
+              <span>Classification</span>
+              <select id="jobClassInput">
+                <option value="Construction & Trades">
+                  Construction & Trades
+                </option>
+                <option value="Logistics & Delivery">
+                  Logistics & Delivery
+                </option>
+                <option value="Hospitality & Food">Hospitality & Food</option>
+                <option value="Household & Care">Household & Care</option>
+                <option value="Retail & Service">Retail & Service</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="f-group">
+            <span>Job Description & Requirements</span>
+            <textarea
+              id="jobDescInput"
+              rows="3"
+              required
+              placeholder="Describe tasks, schedule, and required tools or experience..."
+            ></textarea>
+          </label>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" id="cancelAddJob">
+              Cancel
+            </button>
+            <button type="submit" class="btn-add-job-primary">
+              Publish Job
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- SLIDING DRAWER: APPLICANTS FOR SELECTED JOB -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside id="overlay" class="drawer" aria-hidden="true">
+      <div class="drawer-inner">
+        <button
+          type="button"
+          class="drawer-close"
+          id="drawerClose"
+          aria-label="Close applicants list"
+        >
+          ✕
+        </button>
+
+        <div class="drawer-head">
+          <div class="drawer-avatar" id="dJobIcon">J</div>
+          <div>
+            <h2 id="dJobTitle">Job Title</h2>
+            <p class="drawer-sub" id="dJobMeta">Location • Pay Rate</p>
+          </div>
+        </div>
+
+        <p class="drawer-bio" id="dJobDesc">Job description goes here.</p>
+
+        <div class="applicants-section-head">
+          <h3>Applicants (<span id="dApplicantCount">0</span>)</h3>
+        </div>
+
+        <div class="applicant-list" id="dApplicantList">
+          <!-- Populated dynamically when a job card is clicked -->
+        </div>
+      </div>
+    </aside>
+
+    <script src="employer.js"></script>
+  </body>
+</html>
